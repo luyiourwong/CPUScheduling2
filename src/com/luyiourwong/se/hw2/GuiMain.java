@@ -35,7 +35,7 @@ public class GuiMain extends JFrame{
     	/*
 		 * main frame
 		 */
-		layoutX = 1920;
+		layoutX = 1600;
         layoutY = 800;
         setSize(layoutX, layoutY);
         setTitle(frameName);
