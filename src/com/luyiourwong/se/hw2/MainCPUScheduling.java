@@ -11,7 +11,16 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MainCPUScheduling{
+	
+	/*
+	 * values
+	 */
+	public static final String FCFS = "FCFS";
+	public static final String SJF = "SJF";
 
+	/*
+	 * 
+	 */
 	private static MainCPUScheduling instance;
 	
 	private static boolean DEBUG = true;
@@ -102,71 +111,20 @@ public class MainCPUScheduling{
 		
 		//FCFS
 		
-		log("[FCFS] ========================");
 		Schedule fcfs = new ScheduleFCFS(listPro);
-		fcfs.createScheduling();
-		fcfs.createTimes();
-		
-		for(Integer i : fcfs.getMapSch().keySet()) {
-			Process p = fcfs.getMapSch().get(i);
-			log("[FCFS] at " + i + " : " + p.getName());
-		}
-		
-		log("[FCFS] ========================");
-		
-		for(Process p : fcfs.getMapTimeRun().keySet()) {
-			Integer i = fcfs.getMapTimeRun().get(p);
-			log("[FCFS] " + p.getName() + " Turnaround Time: " + i);
-			p.setFCFS_turn(i);
-		}
-		
-		log("[FCFS] ========================");
-		
-		for(Process p : fcfs.getMapTimeWait().keySet()) {
-			Integer i = fcfs.getMapTimeWait().get(p);
-			log("[FCFS] " + p.getName() + " Waiting Time: " + i);
-			p.setFCFS_wait(i);
-		}
-		
-		log("[FCFS] ========================");
+		fcfs.runSchedule();
 		
 		//SJF
-		
-		log("[SJF] ========================");
 		Schedule sjf = new ScheduleSJF(listPro);
-		sjf.createScheduling();
-		sjf.createTimes();
-		
-		for(Integer i : sjf.getMapSch().keySet()) {
-			Process p = sjf.getMapSch().get(i);
-			log("[SJF] at " + i + " : " + p.getName());
-		}
-		
-		log("[SJF] ========================");
-		
-		for(Process p : sjf.getMapTimeRun().keySet()) {
-			Integer i = sjf.getMapTimeRun().get(p);
-			log("[SJF] " + p.getName() + " Turnaround Time: " + i);
-			p.setSJF_turn(i);
-		}
-		
-		log("[SJF] ========================");
-		
-		for(Process p : sjf.getMapTimeWait().keySet()) {
-			Integer i = sjf.getMapTimeWait().get(p);
-			log("[SJF] " + p.getName() + " Waiting Time: " + i);
-			p.setSJF_wait(i);
-		}
-		
-		log("[SJF] ========================");
+		sjf.runSchedule();
 		
 		//gui
 		
 		getGuiMain().clearGui();
 		int locY = 50;
-		getGuiMain().createGuiPic(locY, "FCFS", fcfs.getMapSch());
+		getGuiMain().createGuiPic(locY, FCFS, fcfs.getMapSch());
 		locY += 100;
-		getGuiMain().createGuiPic(locY, "SJF", sjf.getMapSch());
+		getGuiMain().createGuiPic(locY, SJF, sjf.getMapSch());
 		locY += 100;
 		getGuiMain().createGuiTable(locY);
 	}

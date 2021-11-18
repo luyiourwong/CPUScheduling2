@@ -8,6 +8,7 @@ public class ScheduleSJF extends Schedule{
 
 	public ScheduleSJF(List<Process> listPro) {
 		super(listPro);
+		setAlgName(MainCPUScheduling.SJF);
 	}
 
 	@Override
@@ -75,8 +76,6 @@ public class ScheduleSJF extends Schedule{
 		
 		MainCPUScheduling.getInstance().logDEBUG("[sch SJF] ========================");
 		
-		setHasScheduled(true);
-		this.setMapSch(mapSch);
-		return this.getMapSch();
+		return mapSch;
 	}
 }

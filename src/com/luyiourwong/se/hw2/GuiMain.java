@@ -126,10 +126,10 @@ public class GuiMain extends JFrame{
         	list[count][1] = p.getPriority();
         	list[count][2] = p.getBurst();
         	list[count][3] = p.getArrival();
-        	list[count][4] = p.getFCFS_turn();
-        	list[count][5] = p.getFCFS_wait();
-        	list[count][6] = p.getSJF_turn();
-        	list[count][7] = p.getSJF_wait();
+        	list[count][4] = p.getValue(Process.TURN, "FCFS");
+        	list[count][5] = p.getValue(Process.WAIT, "FCFS");
+        	list[count][6] = p.getValue(Process.TURN, "SJF");
+        	list[count][7] = p.getValue(Process.WAIT, "FCFS");
         	count++;
         }
         JTable jt = new JTable(list, columns);

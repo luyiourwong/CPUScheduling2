@@ -1,19 +1,19 @@
 package com.luyiourwong.se.hw2;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Process implements Comparable<Process>{
+	
+	public static final int TURN = 1;
+	public static final int WAIT = 2;
 
 	private String name;
 	private int priority;
 	private int burst;
 	private int arrival;
 	
-	//FCFS
-	private int FCFS_turn;
-	private int FCFS_wait;
-	
-	//SJF
-	private int SJF_turn;
-	private int SJF_wait;
+	private Map<String, Integer> mapValue;
 	
 	public Process(String name, int priority, int burst, int arrival) {
 		super();
@@ -21,6 +21,7 @@ public class Process implements Comparable<Process>{
 		this.priority = priority;
 		this.burst = burst;
 		this.arrival = arrival;
+		this.mapValue = new HashMap<String, Integer>();
 	}
 	
 	/*
@@ -63,36 +64,26 @@ public class Process implements Comparable<Process>{
 	 * 
 	 */
 
-	public int getFCFS_turn() {
-		return FCFS_turn;
+	public Map<String, Integer> getMapValue() {
+		return mapValue;
 	}
 
-	public void setFCFS_turn(int fCFS_turn) {
-		FCFS_turn = fCFS_turn;
+	public void setMapValue(Map<String, Integer> mapValue) {
+		this.mapValue = mapValue;
 	}
-
-	public int getFCFS_wait() {
-		return FCFS_wait;
+	
+	public String getKey(int type, String alg) {
+		String key = (type == TURN)? "turn" : "wait";
+		key += "_" + alg;
+		return key;
 	}
-
-	public void setFCFS_wait(int fCFS_wait) {
-		FCFS_wait = fCFS_wait;
+	
+	public int getValue(int type, String alg) {
+		return getMapValue().get(getKey(type, alg));
 	}
-
-	public int getSJF_turn() {
-		return SJF_turn;
-	}
-
-	public void setSJF_turn(int sJF_turn) {
-		SJF_turn = sJF_turn;
-	}
-
-	public int getSJF_wait() {
-		return SJF_wait;
-	}
-
-	public void setSJF_wait(int sJF_wait) {
-		SJF_wait = sJF_wait;
+	
+	public void setValue(int type, String alg, int arg) {
+		getMapValue().put(getKey(type, alg), arg);
 	}
 
 	@Override

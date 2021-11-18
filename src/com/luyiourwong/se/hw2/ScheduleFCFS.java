@@ -8,6 +8,7 @@ public class ScheduleFCFS extends Schedule{
 
 	public ScheduleFCFS(List<Process> listPro) {
 		super(listPro);
+		setAlgName(MainCPUScheduling.FCFS);
 	}
 
 	@Override
@@ -36,8 +37,6 @@ public class ScheduleFCFS extends Schedule{
 		
 		MainCPUScheduling.getInstance().logDEBUG("[sch FCFS] ========================");
 		
-		setHasScheduled(true);
-		this.setMapSch(mapSch);
-		return this.getMapSch();
+		return mapSch;
 	}
 }

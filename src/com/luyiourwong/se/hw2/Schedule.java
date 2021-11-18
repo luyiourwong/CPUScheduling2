@@ -6,9 +6,10 @@ import java.util.TreeMap;
 
 public class Schedule {
 
+	private String algName;
+	
 	private List<Process> listPro;
 	
-	private boolean hasScheduled;
 	private Map<Integer, Process> mapSch;
 	private Map<Process, Integer> mapTimeRun;
 	private Map<Process, Integer> mapTimeWait;
@@ -17,20 +18,20 @@ public class Schedule {
 		setListPro(listPro);
 	}
 	
+	public String getAlgName() {
+		return algName;
+	}
+
+	public void setAlgName(String algName) {
+		this.algName = algName;
+	}
+
 	public List<Process> getListPro() {
 		return listPro;
 	}
 
 	public void setListPro(List<Process> listPro) {
 		this.listPro = listPro;
-	}
-	
-	public boolean isHasScheduled() {
-		return hasScheduled;
-	}
-
-	public void setHasScheduled(boolean hasScheduled) {
-		this.hasScheduled = hasScheduled;
 	}
 
 	public Map<Integer, Process> getMapSch() {
@@ -56,19 +57,49 @@ public class Schedule {
 	public void setMapTimeWait(Map<Process, Integer> mapTimeWait) {
 		this.mapTimeWait = mapTimeWait;
 	}
+	
+	public boolean runSchedule() {
+		if(getListPro() == null) {
+			return false;
+		} else {
+			setMapSch(createScheduling());
+			setMapTimeRun(createTurnaroundTime());
+			setMapTimeWait(createWaitingTime());
+			
+			printSchedule();
+			return true;
+		}
+	}
+	
+	private void printSchedule() {
+		MainCPUScheduling.getInstance().log("[" + getAlgName() + "] ========================");
+		
+		for(Integer i : getMapSch().keySet()) {
+			Process p = getMapSch().get(i);
+			MainCPUScheduling.getInstance().log("[" + getAlgName() + "] at " + i + " : " + p.getName());
+		}
+		
+		MainCPUScheduling.getInstance().log("[" + getAlgName() + "] ========================");
+		
+		for(Process p : getMapTimeRun().keySet()) {
+			Integer i = getMapTimeRun().get(p);
+			MainCPUScheduling.getInstance().log("[" + getAlgName() + "] " + p.getName() + " Turnaround Time: " + i);
+			p.setValue(Process.TURN, getAlgName(), i);
+		}
+		
+		MainCPUScheduling.getInstance().log("[" + getAlgName() + "] ========================");
+		
+		for(Process p : getMapTimeWait().keySet()) {
+			Integer i = getMapTimeWait().get(p);
+			MainCPUScheduling.getInstance().log("[" + getAlgName() + "] " + p.getName() + " Waiting Time: " + i);
+			p.setValue(Process.WAIT, getAlgName(), i);
+		}
+		
+		MainCPUScheduling.getInstance().log("[" + getAlgName() + "] ========================");
+	}
 
 	public Map<Integer, Process> createScheduling(){
 		return null;
-	}
-	
-	public boolean createTimes() {
-		if(!isHasScheduled()) {
-			return false;
-		} else {
-			setMapTimeRun(createTurnaroundTime());
-			setMapTimeWait(createWaitingTime());
-			return true;
-		}
 	}
 	
 	private Map<Process, Integer> createTurnaroundTime(){
