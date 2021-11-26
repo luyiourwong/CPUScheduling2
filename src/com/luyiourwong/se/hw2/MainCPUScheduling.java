@@ -23,7 +23,7 @@ public class MainCPUScheduling{
 	 */
 	private static MainCPUScheduling instance;
 	
-	private static boolean DEBUG = true;
+	public static boolean DEBUG = true;
 	
 	/*
 	 * create instance
@@ -31,29 +31,20 @@ public class MainCPUScheduling{
 
 	public static void main(String[] args) {
 		instance = new MainCPUScheduling();
-        instance.init();
+		instance.init();
+		instance.showGui();
 	}
 	
 	public MainCPUScheduling() {
 		
 	}
 	
+	public static void setInstance(MainCPUScheduling newinstance) {
+		instance = newinstance;
+	}
+	
 	public static MainCPUScheduling getInstance() {
 		return instance;
-	}
-	
-	/*
-	 * logDEBUG
-	 */
-	
-	public void log(String msg) {
-    	System.out.println(msg);
-    	//pushlogDEBUG(msg);if(DEBUG)
-	}
-	
-	public void logDEBUG(String msg) {
-		if(DEBUG)System.out.println(msg);
-    	//pushlogDEBUG(msg);
 	}
 	
 	/*
@@ -79,6 +70,9 @@ public class MainCPUScheduling{
 	
 	private void init() {
 		setGuiMain(new GuiMain());
+	}
+	
+	private void showGui() {
 		getGuiMain().initGui();
 	}
 	
@@ -99,14 +93,14 @@ public class MainCPUScheduling{
 	}
 
 	public void scheduling(File file) {
-		//排程
+		//get input from file and create list process
 		listInput = this.readFileFromFile(file);
 		listPro = this.createListPro(listInput);
 		
 		//sort by arrival
 		Collections.sort(listPro);
 		for(Process p : listPro) {
-			log("[after sort] process " + p.getName() + " : " + p.getPriority() + ", " + p.getBurst() + ", " + p.getArrival());
+			Logger.log("[after sort] process " + p.getName() + " : " + p.getPriority() + ", " + p.getBurst() + ", " + p.getArrival());
 		}
 		
 		//FCFS
@@ -133,13 +127,14 @@ public class MainCPUScheduling{
 	 * read file from string location to list string
 	 */
 	
-	private List<String> readFileFromFile(File file) {
-		logDEBUG("[read file] ========================");
+	public List<String> readFileFromFile(File file) {
+		Logger.logDEBUG("[read file] ========================");
+		
+		/*
+		 * load file
+		 */
 		
 		List<String> listInputs = new ArrayList<String>();
-		/*
-		 * 讀取檔案
-		 */
 		FileReader reader = null;
 		try {
 			reader = new FileReader(file);
@@ -150,16 +145,16 @@ public class MainCPUScheduling{
 		Scanner scan = new Scanner(buffer);
 		
 		/*
-		 * 讀取字元
+		 * read string
 		 */
 		while(scan.hasNext()){
 			String next = scan.next();
 			listInputs.add(next);
-			logDEBUG("[read file] read: " + next);
+			Logger.logDEBUG("[read file] read: " + next);
 		}
 		
 		/*
-		 * 結束讀取
+		 * end
 		 */
 		scan.close();
 		try {
@@ -173,7 +168,7 @@ public class MainCPUScheduling{
 			e.printStackTrace();
 		}
 		
-		logDEBUG("[read file] ========================");
+		Logger.logDEBUG("[read file] ========================");
 		
 		return listInputs;
 	}
@@ -188,8 +183,8 @@ public class MainCPUScheduling{
 		this.changeTime = changeTime;
 	}
 
-	private List<Process> createListPro(List<String> listInput){
-		logDEBUG("[create list pro] ========================");
+	public List<Process> createListPro(List<String> listInput){
+		Logger.logDEBUG("[create list pro] ========================");
 		
 		List<Process> list = new ArrayList<Process>();
 		
@@ -205,7 +200,7 @@ public class MainCPUScheduling{
 				continue;
 			}
 			this.setChangeTime(in);
-			log("[create list pro] set change time: " + this.getChangeTime());
+			Logger.log("[create list pro] set change time: " + this.getChangeTime());
 		}
 		
 		//remove change time from list
@@ -250,7 +245,7 @@ public class MainCPUScheduling{
 				
 				//create new process
 				list.add(new Process(name, priority, burst, arrival));
-				logDEBUG("[create list pro] new process " + name + " : " + priority + ", " + burst + ", " + arrival);
+				Logger.logDEBUG("[create list pro] new process " + name + " : " + priority + ", " + burst + ", " + arrival);
 				
 				//init
 				name = "";
@@ -262,7 +257,7 @@ public class MainCPUScheduling{
 			}
 		}
 		
-		logDEBUG("[create list pro] ========================");
+		Logger.logDEBUG("[create list pro] ========================");
 		
 		return list;
 	}

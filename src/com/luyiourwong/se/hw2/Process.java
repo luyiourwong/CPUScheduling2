@@ -61,7 +61,7 @@ public class Process implements Comparable<Process>{
 	}
 	
 	/*
-	 * 
+	 * get value from map
 	 */
 
 	public Map<String, Integer> getMapValue() {
@@ -72,19 +72,41 @@ public class Process implements Comparable<Process>{
 		this.mapValue = mapValue;
 	}
 	
+	/**
+	 * Get algorithm's turnaround/waiting time key name
+	 * @param type input by MainCPUScheduling.[type]
+	 * @param alg input by Process.[alg]
+	 * @return key String
+	 */
 	public String getKey(int type, String alg) {
 		String key = (type == TURN)? "turn" : "wait";
 		key += "_" + alg;
 		return key;
 	}
 	
+	/**
+	 * Get algorithm's turnaround/waiting time value
+	 * @param type input by MainCPUScheduling.[type]
+	 * @param alg input by Process.[alg]
+	 * @return value String
+	 */
 	public int getValue(int type, String alg) {
 		return getMapValue().get(getKey(type, alg));
 	}
 	
-	public void setValue(int type, String alg, int arg) {
-		getMapValue().put(getKey(type, alg), arg);
+	/**
+	 * Set algorithm's turnaround/waiting time value
+	 * @param type input by MainCPUScheduling.[type]
+	 * @param alg input by Process.[alg]
+	 * @param value time
+	 */
+	public void setValue(int type, String alg, int value) {
+		getMapValue().put(getKey(type, alg), value);
 	}
+	
+	/*
+	 * compare by arrival time
+	 */
 
 	@Override
 	public int compareTo(Process o) {

@@ -4,6 +4,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * To extends this, replace createScheduling().
+ * To new this, just input listPro.
+ * To run this, just use runSchedule() after input listPro.
+ */
 public class Schedule {
 
 	private String algName;
@@ -14,6 +19,9 @@ public class Schedule {
 	private Map<Process, Integer> mapTimeRun;
 	private Map<Process, Integer> mapTimeWait;
 	
+	/**
+	 * @param listPro from MainCPUScheduling
+	 */
 	public Schedule(List<Process> listPro){
 		setListPro(listPro);
 	}
@@ -58,6 +66,10 @@ public class Schedule {
 		this.mapTimeWait = mapTimeWait;
 	}
 	
+	/**
+	 * create mapScheduling, create TurnaroundTime, create WaitingTime and print all.
+	 * @return false if this.ListPro is empty, else true
+	 */
 	public boolean runSchedule() {
 		if(getListPro() == null) {
 			return false;
@@ -72,32 +84,36 @@ public class Schedule {
 	}
 	
 	private void printSchedule() {
-		MainCPUScheduling.getInstance().log("[" + getAlgName() + "] ========================");
+		Logger.log("[" + getAlgName() + "] ========================");
 		
 		for(Integer i : getMapSch().keySet()) {
 			Process p = getMapSch().get(i);
-			MainCPUScheduling.getInstance().log("[" + getAlgName() + "] at " + i + " : " + p.getName());
+			Logger.log("[" + getAlgName() + "] at " + i + " : " + p.getName());
 		}
 		
-		MainCPUScheduling.getInstance().log("[" + getAlgName() + "] ========================");
+		Logger.log("[" + getAlgName() + "] ========================");
 		
 		for(Process p : getMapTimeRun().keySet()) {
 			Integer i = getMapTimeRun().get(p);
-			MainCPUScheduling.getInstance().log("[" + getAlgName() + "] " + p.getName() + " Turnaround Time: " + i);
+			Logger.log("[" + getAlgName() + "] " + p.getName() + " Turnaround Time: " + i);
 			p.setValue(Process.TURN, getAlgName(), i);
 		}
 		
-		MainCPUScheduling.getInstance().log("[" + getAlgName() + "] ========================");
+		Logger.log("[" + getAlgName() + "] ========================");
 		
 		for(Process p : getMapTimeWait().keySet()) {
 			Integer i = getMapTimeWait().get(p);
-			MainCPUScheduling.getInstance().log("[" + getAlgName() + "] " + p.getName() + " Waiting Time: " + i);
+			Logger.log("[" + getAlgName() + "] " + p.getName() + " Waiting Time: " + i);
 			p.setValue(Process.WAIT, getAlgName(), i);
 		}
 		
-		MainCPUScheduling.getInstance().log("[" + getAlgName() + "] ========================");
+		Logger.log("[" + getAlgName() + "] ========================");
 	}
 
+	/**
+	 * !! REPLACE THIS !!
+	 * @return mapScheduling (default:null)
+	 */
 	public Map<Integer, Process> createScheduling(){
 		return null;
 	}
