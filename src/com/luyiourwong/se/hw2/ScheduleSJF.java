@@ -4,16 +4,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Shortest Job First
+ *
+ */
 public class ScheduleSJF extends Schedule{
 
 	public ScheduleSJF(List<Process> listPro) {
 		super(listPro);
-		setAlgName(MainCPUScheduling.SJF);
+		setAlg(ScheduleList.SJF);
 	}
 
 	@Override
 	public Map<Integer, Process> createScheduling(){
-		Logger.logDEBUG("[sch SJF] ========================");
+		Logger.logDEBUG("[sch " + getAlg().getNick() + "] ========================");
 		
 		Map<Integer, Process> mapSch = new TreeMap<Integer, Process>();
 		Map<Process, Integer> mapPro = new TreeMap<Process, Integer>();
@@ -34,18 +38,18 @@ public class ScheduleSJF extends Schedule{
 				}
 				if(mapPro.isEmpty()) {
 					mapSch.put(count, MainCPUScheduling.getInstance().getpEND());
-					Logger.logDEBUG("[sch SJF] " + count + " END ");
+					Logger.logDEBUG("[sch " + getAlg().getNick() + "] " + count + " END ");
 					break;
 				}
 				for(Process p : mapPro.keySet()) {
 					if(count < p.getArrival()) {
 						mapSch.put(count, MainCPUScheduling.getInstance().getpIdle());
-						Logger.logDEBUG("[sch SJF] " + count + " : " + MainCPUScheduling.getInstance().getpIdle().getName());
+						Logger.logDEBUG("[sch " + getAlg().getNick() + "] " + count + " : " + MainCPUScheduling.getInstance().getpIdle().getName());
 						nowP = MainCPUScheduling.getInstance().getpIdle();
 						next = p.getArrival() - count;
 					} else {
 						mapSch.put(count, p);
-						Logger.logDEBUG("[sch SJF] " + count + " : " + p.getName());
+						Logger.logDEBUG("[sch " + getAlg().getNick() + "] " + count + " : " + p.getName());
 						nowP = p;
 						next += p.getBurst();
 					}
@@ -58,13 +62,13 @@ public class ScheduleSJF extends Schedule{
 						first = false;
 						continue;
 					}
-					Logger.logDEBUG("[sch SJF] to cut " + next + "/" + count + " : " + p.getName());
+					Logger.logDEBUG("[sch " + getAlg().getNick() + "] to cut " + next + "/" + count + " : " + p.getName());
 					if(count > p.getArrival()) {
 						if(next > p.getBurst()) {
 							count -= 1;
 							mapPro.put(nowP, next);
 							mapSch.put(count, p);
-							Logger.logDEBUG("[sch SJF] cut " + count + " : " + p.getName());
+							Logger.logDEBUG("[sch " + getAlg().getNick() + "] cut " + count + " : " + p.getName());
 							nowP = p;
 							next = p.getBurst();
 						}
@@ -74,7 +78,7 @@ public class ScheduleSJF extends Schedule{
 			}
 		}
 		
-		Logger.logDEBUG("[sch SJF] ========================");
+		Logger.logDEBUG("[sch " + getAlg().getNick() + "] ========================");
 		
 		return mapSch;
 	}

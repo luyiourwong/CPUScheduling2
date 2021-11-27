@@ -97,10 +97,12 @@ public class GuiMain extends JFrame{
 		containerMain.add(btn_cf);
 	}
 	
-	public void createAlgGui(String name, Map<Integer, Process> map) {
-		createGuiPic(getLocY(), name, map);
-		addLocY(100);
-		createGuiTable(getLocY(), name);
+	public void createAlgGui(ScheduleList alg, Map<Integer, Process> map) {
+		containerMain.add(addJLabel(alg.getFullName(), 15, getLocY()));
+		addLocY(30);
+		createGuiPic(getLocY(), alg.getNick(), map);
+		addLocY(70);
+		createGuiTable(getLocY(), alg.getNick());
 	}
 
 	private void createGuiPic(int locY, String name, Map<Integer, Process> map) {

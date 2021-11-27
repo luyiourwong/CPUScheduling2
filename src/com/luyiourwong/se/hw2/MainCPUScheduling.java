@@ -10,13 +10,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * https://sites.google.com/view/luyr-se-final
+ */
 public class MainCPUScheduling{
-	
-	/*
-	 * values
-	 */
-	public static final String FCFS = "FCFS";
-	public static final String SJF = "SJF";
 
 	/*
 	 * 
@@ -97,14 +94,13 @@ public class MainCPUScheduling{
 		listInput = this.readFileFromFile(file);
 		listPro = this.createListPro(listInput);
 		
-		//sort by arrival
+		//sort by arrival & print
 		Collections.sort(listPro);
 		for(Process p : listPro) {
 			Logger.log("[after sort] process " + p.getName() + " : " + p.getPriority() + ", " + p.getBurst() + ", " + p.getArrival());
 		}
 		
 		//FCFS
-		
 		Schedule fcfs = new ScheduleFCFS(listPro);
 		fcfs.runSchedule();
 		
@@ -113,10 +109,9 @@ public class MainCPUScheduling{
 		sjf.runSchedule();
 		
 		//gui
-		
 		getGuiMain().clearGui();
-		getGuiMain().createAlgGui(FCFS, fcfs.getMapSch());
-		getGuiMain().createAlgGui(SJF, sjf.getMapSch());
+		getGuiMain().createAlgGui(ScheduleList.FCFS, fcfs.getMapSch());
+		getGuiMain().createAlgGui(ScheduleList.SJF, sjf.getMapSch());
 	}
 	
 	/*

@@ -11,7 +11,7 @@ import java.util.TreeMap;
  */
 public class Schedule {
 
-	private String algName;
+	private ScheduleList alg;
 	
 	private List<Process> listPro;
 	
@@ -26,12 +26,12 @@ public class Schedule {
 		setListPro(listPro);
 	}
 	
-	public String getAlgName() {
-		return algName;
+	public ScheduleList getAlg() {
+		return alg;
 	}
 
-	public void setAlgName(String algName) {
-		this.algName = algName;
+	public void setAlg(ScheduleList alg) {
+		this.alg = alg;
 	}
 
 	public List<Process> getListPro() {
@@ -84,30 +84,30 @@ public class Schedule {
 	}
 	
 	private void printSchedule() {
-		Logger.log("[" + getAlgName() + "] ========================");
+		Logger.log("[" + getAlg() + "] ========================");
 		
 		for(Integer i : getMapSch().keySet()) {
 			Process p = getMapSch().get(i);
-			Logger.log("[" + getAlgName() + "] at " + i + " : " + p.getName());
+			Logger.log("[" + getAlg() + "] at " + i + " : " + p.getName());
 		}
 		
-		Logger.log("[" + getAlgName() + "] ========================");
+		Logger.log("[" + getAlg() + "] ========================");
 		
 		for(Process p : getMapTimeRun().keySet()) {
 			Integer i = getMapTimeRun().get(p);
-			Logger.log("[" + getAlgName() + "] " + p.getName() + " Turnaround Time: " + i);
-			p.setValue(Process.TURN, getAlgName(), i);
+			Logger.log("[" + getAlg() + "] " + p.getName() + " Turnaround Time: " + i);
+			p.setValue(Process.TURN, getAlg().getNick(), i);
 		}
 		
-		Logger.log("[" + getAlgName() + "] ========================");
+		Logger.log("[" + getAlg() + "] ========================");
 		
 		for(Process p : getMapTimeWait().keySet()) {
 			Integer i = getMapTimeWait().get(p);
-			Logger.log("[" + getAlgName() + "] " + p.getName() + " Waiting Time: " + i);
-			p.setValue(Process.WAIT, getAlgName(), i);
+			Logger.log("[" + getAlg() + "] " + p.getName() + " Waiting Time: " + i);
+			p.setValue(Process.WAIT, getAlg().getNick(), i);
 		}
 		
-		Logger.log("[" + getAlgName() + "] ========================");
+		Logger.log("[" + getAlg() + "] ========================");
 	}
 
 	/**
