@@ -27,10 +27,23 @@ public class GuiMain extends JFrame{
 	private BorderLayout layoutMain;
 	private Container containerMain;
 	
-	private int locY = 0;
-	
 	private int picmult = 10;
 	
+	private static final int locYdefault = 50;
+	private int locY = locYdefault;
+	
+	public int getLocY() {
+		return locY;
+	}
+
+	public void setLocY(int locY) {
+		this.locY = locY;
+	}
+	
+	public void addLocY(int locY) {
+		setLocY(getLocY() + locY);
+	}
+
 	public void initGui() {
 		/*
 		 * main frame
@@ -61,21 +74,10 @@ public class GuiMain extends JFrame{
 	
 	public void clearGui() {
 		containerMain.removeAll();
+		setLocY(locYdefault);
 		addChooseFileBtn();
 		containerMain.revalidate();
 		containerMain.repaint();
-	}
-	
-	public int getLocY() {
-		return locY;
-	}
-
-	public void setLocY(int locY) {
-		this.locY = locY;
-	}
-	
-	public void addLocY(int locY) {
-		setLocY(getLocY() + locY);
 	}
 
 	private void addChooseFileBtn() {
@@ -94,8 +96,14 @@ public class GuiMain extends JFrame{
 		btn_cf.setBounds(0, 0, 75, 25);
 		containerMain.add(btn_cf);
 	}
+	
+	public void createAlgGui(String name, Map<Integer, Process> map) {
+		createGuiPic(getLocY(), name, map);
+		addLocY(100);
+		createGuiTable(getLocY(), name);
+	}
 
-	public void createGuiPic(int locY, String name, Map<Integer, Process> map) {
+	private void createGuiPic(int locY, String name, Map<Integer, Process> map) {
 		int locX = 10;
 		containerMain.add(addJLabel(name, locX - 5, locY + 25));
 		locX += 30;
@@ -117,26 +125,27 @@ public class GuiMain extends JFrame{
 		}
 	}
 	
-	public void createGuiTable(int locY) {
-		String[] columns = {"Process", "priority", "burst", "arrival", "FCFS_Turn", "FCFS_Wait", "SJF_Turn", "SJF_Wait"};
-		Object[][] list = new Object[MainCPUScheduling.getInstance().getListPro().size()][8];
+	private void createGuiTable(int locY, String name) {
+		String[] columns = {"Process", "priority", "burst", "arrival", "Turnaround", "Waiting"};
+		Object[][] list = new Object[MainCPUScheduling.getInstance().getListPro().size()][6];
 		int count = 0;
 		for(Process p : MainCPUScheduling.getInstance().getListPro()) {
 			list[count][0] = p.getName();
 			list[count][1] = p.getPriority();
 			list[count][2] = p.getBurst();
 			list[count][3] = p.getArrival();
-			list[count][4] = p.getValue(Process.TURN, "FCFS");
-			list[count][5] = p.getValue(Process.WAIT, "FCFS");
-			list[count][6] = p.getValue(Process.TURN, "SJF");
-			list[count][7] = p.getValue(Process.WAIT, "FCFS");
+			list[count][4] = p.getValue(Process.TURN, name);
+			list[count][5] = p.getValue(Process.WAIT, name);
 			count++;
 		}
 		JTable jt = new JTable(list, columns);
 		
 		JScrollPane scrollPane = new JScrollPane(jt);  
 		jt.setFillsViewportHeight(true);
-		scrollPane.setBounds(0, locY, layoutX, layoutY);
+		
+		int y = ((count) * 17) + 20;
+		scrollPane.setBounds(0, locY, layoutX, y);
+		addLocY(y);
 		containerMain.add(scrollPane);
 	}
 	

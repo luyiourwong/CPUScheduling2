@@ -115,12 +115,8 @@ public class MainCPUScheduling{
 		//gui
 		
 		getGuiMain().clearGui();
-		int locY = 50;
-		getGuiMain().createGuiPic(locY, FCFS, fcfs.getMapSch());
-		locY += 100;
-		getGuiMain().createGuiPic(locY, SJF, sjf.getMapSch());
-		locY += 100;
-		getGuiMain().createGuiTable(locY);
+		getGuiMain().createAlgGui(FCFS, fcfs.getMapSch());
+		getGuiMain().createAlgGui(SJF, sjf.getMapSch());
 	}
 	
 	/*
