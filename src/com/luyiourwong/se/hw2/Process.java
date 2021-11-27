@@ -17,11 +17,11 @@ public class Process implements Comparable<Process>{
 	
 	public Process(String name, int priority, int burst, int arrival) {
 		super();
-		this.name = name;
-		this.priority = priority;
-		this.burst = burst;
-		this.arrival = arrival;
-		this.mapValue = new HashMap<String, Integer>();
+		setName(name);
+		setPriority(priority);
+		setBurst(burst);
+		setArrival(arrival);
+		setMapValue(new HashMap<String, Integer>());
 	}
 	
 	/*
@@ -32,7 +32,7 @@ public class Process implements Comparable<Process>{
 		return name;
 	}
 
-	public void setName(String name) {
+	private void setName(String name) {
 		this.name = name;
 	}
 
@@ -40,7 +40,7 @@ public class Process implements Comparable<Process>{
 		return priority;
 	}
 
-	public void setPriority(int priority) {
+	private void setPriority(int priority) {
 		this.priority = priority;
 	}
 
@@ -48,7 +48,7 @@ public class Process implements Comparable<Process>{
 		return burst;
 	}
 
-	public void setBurst(int burst) {
+	private void setBurst(int burst) {
 		this.burst = burst;
 	}
 
@@ -56,19 +56,15 @@ public class Process implements Comparable<Process>{
 		return arrival;
 	}
 
-	public void setArrival(int arrival) {
+	private void setArrival(int arrival) {
 		this.arrival = arrival;
 	}
 	
-	/*
-	 * get value from map
-	 */
-
-	public Map<String, Integer> getMapValue() {
+	private Map<String, Integer> getMapValue() {
 		return mapValue;
 	}
 
-	public void setMapValue(Map<String, Integer> mapValue) {
+	private void setMapValue(Map<String, Integer> mapValue) {
 		this.mapValue = mapValue;
 	}
 	
@@ -107,7 +103,6 @@ public class Process implements Comparable<Process>{
 	/*
 	 * compare by arrival time
 	 */
-
 	@Override
 	public int compareTo(Process o) {
 		return this.getArrival() - o.getArrival();

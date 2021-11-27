@@ -19,6 +19,7 @@ import com.luyiourwong.se.hw2.MainCPUScheduling;
 /**
  *
  */
+@SuppressWarnings("unused")
 class MainCPUSchedulingTest {
 	
 	static MainCPUScheduling instance;

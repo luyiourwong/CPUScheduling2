@@ -32,15 +32,15 @@ public class GuiMain extends JFrame{
 	private static final int locYdefault = 50;
 	private int locY = locYdefault;
 	
-	public int getLocY() {
+	private int getLocY() {
 		return locY;
 	}
 
-	public void setLocY(int locY) {
+	private void setLocY(int locY) {
 		this.locY = locY;
 	}
 	
-	public void addLocY(int locY) {
+	private void addLocY(int locY) {
 		setLocY(getLocY() + locY);
 	}
 
@@ -97,12 +97,12 @@ public class GuiMain extends JFrame{
 		containerMain.add(btn_cf);
 	}
 	
-	public void createAlgGui(ScheduleList alg, Map<Integer, Process> map) {
-		containerMain.add(addJLabel(alg.getFullName(), 15, getLocY()));
+	public void createAlgGui(Schedule sch) {
+		containerMain.add(addJLabel(sch.getAlg().getFullName(), 15, getLocY()));
 		addLocY(30);
-		createGuiPic(getLocY(), alg.getNick(), map);
+		createGuiPic(getLocY(), sch.getAlg().getNick(), sch.getMapSch());
 		addLocY(70);
-		createGuiTable(getLocY(), alg.getNick());
+		createGuiTable(getLocY(), sch.getAlg().getNick());
 	}
 
 	private void createGuiPic(int locY, String name, Map<Integer, Process> map) {

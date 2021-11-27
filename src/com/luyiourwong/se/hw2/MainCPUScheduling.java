@@ -27,9 +27,9 @@ public class MainCPUScheduling{
 	 */
 
 	public static void main(String[] args) {
-		instance = new MainCPUScheduling();
-		instance.init();
-		instance.showGui();
+		setInstance(new MainCPUScheduling());
+		getInstance().init();
+		getInstance().showGui();
 	}
 	
 	public MainCPUScheduling() {
@@ -50,11 +50,11 @@ public class MainCPUScheduling{
 	
 	private GuiMain guiMain;
 	
-	public GuiMain getGuiMain() {
+	private GuiMain getGuiMain() {
 		return guiMain;
 	}
 
-	public void setGuiMain(GuiMain guiMain) {
+	private void setGuiMain(GuiMain guiMain) {
 		this.guiMain = guiMain;
 	}
 	
@@ -66,6 +66,7 @@ public class MainCPUScheduling{
 	private List<Process> listPro;
 	
 	private void init() {
+		initTemplateProcess();
 		setGuiMain(new GuiMain());
 	}
 	
@@ -73,11 +74,11 @@ public class MainCPUScheduling{
 		getGuiMain().initGui();
 	}
 	
-	public List<String> getListInput() {
+	private List<String> getListInput() {
 		return listInput;
 	}
 
-	public void setListInput(List<String> listInput) {
+	private void setListInput(List<String> listInput) {
 		this.listInput = listInput;
 	}
 
@@ -85,40 +86,41 @@ public class MainCPUScheduling{
 		return listPro;
 	}
 
-	public void setListPro(List<Process> listPro) {
+	private void setListPro(List<Process> listPro) {
 		this.listPro = listPro;
 	}
 
 	public void scheduling(File file) {
+		//init gui
+		getGuiMain().clearGui();
+		
 		//get input from file and create list process
-		listInput = this.readFileFromFile(file);
-		listPro = this.createListPro(listInput);
+		setListInput(this.readFileFromFile(file));
+		setListPro(this.createListPro(getListInput()));
 		
 		//sort by arrival & print
-		Collections.sort(listPro);
-		for(Process p : listPro) {
+		Collections.sort(getListPro());
+		for(Process p : getListPro()) {
 			Logger.log("[after sort] process " + p.getName() + " : " + p.getPriority() + ", " + p.getBurst() + ", " + p.getArrival());
 		}
 		
 		//FCFS
-		Schedule fcfs = new ScheduleFCFS(listPro);
+		Schedule fcfs = new ScheduleFCFS(getListPro());
 		fcfs.runSchedule();
+		getGuiMain().createAlgGui(fcfs);
 		
 		//SJF
-		Schedule sjf = new ScheduleSJF(listPro);
+		Schedule sjf = new ScheduleSJF(getListPro());
 		sjf.runSchedule();
-		
-		//gui
-		getGuiMain().clearGui();
-		getGuiMain().createAlgGui(ScheduleList.FCFS, fcfs.getMapSch());
-		getGuiMain().createAlgGui(ScheduleList.SJF, sjf.getMapSch());
+		getGuiMain().createAlgGui(sjf);
 	}
 	
-	/*
+	/**
 	 * read file from string location to list string
+	 * @param file
+	 * @return
 	 */
-	
-	public List<String> readFileFromFile(File file) {
+	private List<String> readFileFromFile(File file) {
 		Logger.logDEBUG("[read file] ========================");
 		
 		/*
@@ -164,17 +166,21 @@ public class MainCPUScheduling{
 		return listInputs;
 	}
 	
+	/*
+	 * createListPro
+	 */
+	
 	private int changeTime = -1;
 	
-	public int getChangeTime() {
+	private int getChangeTime() {
 		return changeTime;
 	}
 
-	public void setChangeTime(int changeTime) {
+	private void setChangeTime(int changeTime) {
 		this.changeTime = changeTime;
 	}
 
-	public List<Process> createListPro(List<String> listInput){
+	private List<Process> createListPro(List<String> listInput){
 		Logger.logDEBUG("[create list pro] ========================");
 		
 		List<Process> list = new ArrayList<Process>();
@@ -254,17 +260,21 @@ public class MainCPUScheduling{
 	}
 	
 	/*
-	 * scheduling
+	 * scheduling template Process
 	 */
+	private Process pIdle;
+	private Process pEND;
 	
-	private Process pIdle = new Process("/", 0, 0, 0);
-	private Process pEND = new Process("END", 0, 0, 0);
+	private void initTemplateProcess() {
+		setpIdle(new Process("/", 0, 0, 0));
+		setpEND(new Process("END", 0, 0, 0));
+	}
 	
 	public Process getpIdle() {
 		return pIdle;
 	}
 
-	public void setpIdle(Process pIdle) {
+	private void setpIdle(Process pIdle) {
 		this.pIdle = pIdle;
 	}
 
@@ -272,7 +282,7 @@ public class MainCPUScheduling{
 		return pEND;
 	}
 
-	public void setpEND(Process pEND) {
+	private void setpEND(Process pEND) {
 		this.pEND = pEND;
 	}
 }

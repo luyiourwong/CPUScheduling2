@@ -16,7 +16,7 @@ public class ScheduleFCFS extends Schedule{
 	}
 
 	@Override
-	public Map<Integer, Process> createScheduling(){
+	protected Map<Integer, Process> createScheduling(){
 		Logger.logDEBUG("[sch " + getAlg().getNick() + "] ========================");
 		
 		Map<Integer, Process> mapSch = new TreeMap<Integer, Process>();

@@ -25,7 +25,7 @@ public enum ScheduleList {
 		return nick;
 	}
 
-	public void setNick(String nick) {
+	private void setNick(String nick) {
 		this.nick = nick;
 	}
 
@@ -33,7 +33,7 @@ public enum ScheduleList {
 		return fullName;
 	}
 
-	public void setFullName(String fullName) {
+	private void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
 }

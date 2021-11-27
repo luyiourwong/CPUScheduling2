@@ -30,15 +30,15 @@ public class Schedule {
 		return alg;
 	}
 
-	public void setAlg(ScheduleList alg) {
+	protected void setAlg(ScheduleList alg) {
 		this.alg = alg;
 	}
 
-	public List<Process> getListPro() {
+	protected List<Process> getListPro() {
 		return listPro;
 	}
 
-	public void setListPro(List<Process> listPro) {
+	private void setListPro(List<Process> listPro) {
 		this.listPro = listPro;
 	}
 
@@ -46,23 +46,23 @@ public class Schedule {
 		return mapSch;
 	}
 
-	public void setMapSch(Map<Integer, Process> mapSch) {
+	private void setMapSch(Map<Integer, Process> mapSch) {
 		this.mapSch = mapSch;
 	}
 
-	public Map<Process, Integer> getMapTimeRun() {
+	private Map<Process, Integer> getMapTimeRun() {
 		return mapTimeRun;
 	}
 
-	public void setMapTimeRun(Map<Process, Integer> mapTimeRun) {
+	private void setMapTimeRun(Map<Process, Integer> mapTimeRun) {
 		this.mapTimeRun = mapTimeRun;
 	}
 
-	public Map<Process, Integer> getMapTimeWait() {
+	private Map<Process, Integer> getMapTimeWait() {
 		return mapTimeWait;
 	}
 
-	public void setMapTimeWait(Map<Process, Integer> mapTimeWait) {
+	private void setMapTimeWait(Map<Process, Integer> mapTimeWait) {
 		this.mapTimeWait = mapTimeWait;
 	}
 	
@@ -114,7 +114,7 @@ public class Schedule {
 	 * !! REPLACE THIS !!
 	 * @return mapScheduling (default:null)
 	 */
-	public Map<Integer, Process> createScheduling(){
+	protected Map<Integer, Process> createScheduling(){
 		return null;
 	}
 	
