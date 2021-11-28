@@ -17,7 +17,7 @@ public class ScheduleFCFS extends Schedule{
 
 	@Override
 	protected Map<Integer, Process> createScheduling(){
-		Logger.logDEBUG("[sch " + getAlg().getNick() + "] ========================");
+		Logger.logAlg(getAlg(), "========================");
 		
 		Map<Integer, Process> mapSch = new TreeMap<Integer, Process>();
 		
@@ -28,18 +28,18 @@ public class ScheduleFCFS extends Schedule{
 			//如果下一個時間比到達時間早, 補idle
 			if(next < p.getArrival()) {
 				mapSch.put(next, MainCPUScheduling.getInstance().getpIdle());
-				Logger.logDEBUG("[sch " + getAlg().getNick() + "] at " + next + " : " + MainCPUScheduling.getInstance().getpIdle().getName());
+				Logger.logAlg(getAlg(), "at " + next + " : " + MainCPUScheduling.getInstance().getpIdle().getName());
 				next = p.getArrival();
 			}
 			mapSch.put(next, p);
-			Logger.logDEBUG("[sch " + getAlg().getNick() + "] at " + next + " : " + p.getName());
+			Logger.logAlg(getAlg(), "at " + next + " : " + p.getName());
 			next += p.getBurst();
 		}
 		
 		mapSch.put(next, MainCPUScheduling.getInstance().getpEND());
-		Logger.logDEBUG("[sch " + getAlg().getNick() + "] at " + next + " END ");
+		Logger.logAlg(getAlg(), "at " + next + " END ");
 		
-		Logger.logDEBUG("[sch " + getAlg().getNick() + "] ========================");
+		Logger.logAlg(getAlg(), "========================");
 		
 		return mapSch;
 	}

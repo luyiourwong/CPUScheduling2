@@ -84,30 +84,30 @@ public class Schedule {
 	}
 	
 	private void printSchedule() {
-		Logger.log("[" + getAlg() + "] ========================");
+		Logger.logAlg(getAlg(), "========================");
 		
 		for(Integer i : getMapSch().keySet()) {
 			Process p = getMapSch().get(i);
-			Logger.log("[" + getAlg() + "] at " + i + " : " + p.getName());
+			Logger.logAlg(getAlg(), "at " + i + " : " + p.getName());
 		}
 		
-		Logger.log("[" + getAlg() + "] ========================");
+		Logger.logAlg(getAlg(), "========================");
 		
 		for(Process p : getMapTimeRun().keySet()) {
 			Integer i = getMapTimeRun().get(p);
-			Logger.log("[" + getAlg() + "] " + p.getName() + " Turnaround Time: " + i);
+			Logger.logAlg(getAlg(), "" + p.getName() + " Turnaround Time: " + i);
 			p.setValue(Process.TURN, getAlg().getNick(), i);
 		}
 		
-		Logger.log("[" + getAlg() + "] ========================");
+		Logger.logAlg(getAlg(), "========================");
 		
 		for(Process p : getMapTimeWait().keySet()) {
 			Integer i = getMapTimeWait().get(p);
-			Logger.log("[" + getAlg() + "] " + p.getName() + " Waiting Time: " + i);
+			Logger.logAlg(getAlg(), "" + p.getName() + " Waiting Time: " + i);
 			p.setValue(Process.WAIT, getAlg().getNick(), i);
 		}
 		
-		Logger.log("[" + getAlg() + "] ========================");
+		Logger.logAlg(getAlg(), "========================");
 	}
 
 	/**
