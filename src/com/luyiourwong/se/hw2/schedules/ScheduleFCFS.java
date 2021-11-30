@@ -1,8 +1,12 @@
-package com.luyiourwong.se.hw2;
+package com.luyiourwong.se.hw2.schedules;
 
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import com.luyiourwong.se.hw2.Logger;
+import com.luyiourwong.se.hw2.MainCPUScheduling;
+import com.luyiourwong.se.hw2.Process;
 
 /**
  * First Come First Served

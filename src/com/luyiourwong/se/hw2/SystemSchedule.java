@@ -10,6 +10,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import com.luyiourwong.se.hw2.schedules.Schedule;
+import com.luyiourwong.se.hw2.schedules.ScheduleFCFS;
+import com.luyiourwong.se.hw2.schedules.ScheduleSJF;
+
 public class SystemSchedule {
 
 	private List<String> listInput;

@@ -1,4 +1,4 @@
-package com.luyiourwong.se.hw2;
+package com.luyiourwong.se.hw2.schedules;
 
 public enum ScheduleList {
 

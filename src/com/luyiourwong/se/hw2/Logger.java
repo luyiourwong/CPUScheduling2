@@ -1,5 +1,7 @@
 package com.luyiourwong.se.hw2;
 
+import com.luyiourwong.se.hw2.schedules.ScheduleList;
+
 public class Logger {
 
 	public static void log(String msg) {

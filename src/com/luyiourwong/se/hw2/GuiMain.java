@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import com.luyiourwong.se.hw2.schedules.Schedule;
+
 public class GuiMain extends JFrame{
 
 	private static final long serialVersionUID = 1L;
