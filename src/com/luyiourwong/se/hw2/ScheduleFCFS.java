@@ -27,8 +27,8 @@ public class ScheduleFCFS extends Schedule{
 		for(Process p : getListPro()) {
 			//如果下一個時間比到達時間早, 補idle
 			if(next < p.getArrival()) {
-				mapSch.put(next, MainCPUScheduling.getInstance().getpIdle());
-				Logger.logAlg(getAlg(), "at " + next + " : " + MainCPUScheduling.getInstance().getpIdle().getName());
+				mapSch.put(next, MainCPUScheduling.getInstance().getSystem().getpIdle());
+				Logger.logAlg(getAlg(), "at " + next + " : " + MainCPUScheduling.getInstance().getSystem().getpIdle().getName());
 				next = p.getArrival();
 			}
 			mapSch.put(next, p);
@@ -36,7 +36,7 @@ public class ScheduleFCFS extends Schedule{
 			next += p.getBurst();
 		}
 		
-		mapSch.put(next, MainCPUScheduling.getInstance().getpEND());
+		mapSch.put(next, MainCPUScheduling.getInstance().getSystem().getpEND());
 		Logger.logAlg(getAlg(), "at " + next + " END ");
 		
 		Logger.logAlg(getAlg(), "========================");

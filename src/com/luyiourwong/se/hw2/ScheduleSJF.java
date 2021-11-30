@@ -37,12 +37,12 @@ public class ScheduleSJF extends Schedule{
 				//重置計數器
 				next = 0;
 				//移除nowP
-				if(nowP != null && nowP != MainCPUScheduling.getInstance().getpIdle() && nowP != MainCPUScheduling.getInstance().getpEND()) {
+				if(nowP != null && nowP != MainCPUScheduling.getInstance().getSystem().getpIdle() && nowP != MainCPUScheduling.getInstance().getSystem().getpEND()) {
 					mapPro.remove(nowP);
 				}
 				//如果已經沒有p要跑, 補上END並結束
 				if(mapPro.isEmpty()) {
-					mapSch.put(count, MainCPUScheduling.getInstance().getpEND());
+					mapSch.put(count, MainCPUScheduling.getInstance().getSystem().getpEND());
 					Logger.logAlg(getAlg(), count, "END " + " ==========");
 					break;
 				}
@@ -50,9 +50,9 @@ public class ScheduleSJF extends Schedule{
 				for(Process p : mapPro.keySet()) {
 					//如果下一個p還沒到, 補上Idle
 					if(count < p.getArrival()) {
-						mapSch.put(count, MainCPUScheduling.getInstance().getpIdle());
-						Logger.logAlg(getAlg(), count, "switch " + MainCPUScheduling.getInstance().getpIdle().getName() + " ==========");
-						nowP = MainCPUScheduling.getInstance().getpIdle();
+						mapSch.put(count, MainCPUScheduling.getInstance().getSystem().getpIdle());
+						Logger.logAlg(getAlg(), count, "switch " + MainCPUScheduling.getInstance().getSystem().getpIdle().getName() + " ==========");
+						nowP = MainCPUScheduling.getInstance().getSystem().getpIdle();
 						next = p.getArrival() - count;
 					//如果下一個p到了, 切換nowP
 					} else {

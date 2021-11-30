@@ -89,7 +89,7 @@ public class GuiMain extends JFrame{
 				if (returnValue == JFileChooser.APPROVE_OPTION){
 					File selectedFile = fileChooser.getSelectedFile();
 					Logger.log("[select file] " + selectedFile.getName());
-					MainCPUScheduling.getInstance().scheduling(selectedFile);
+					MainCPUScheduling.getInstance().getSystem().scheduling(selectedFile);
 				}
 			}
 		});
@@ -121,7 +121,7 @@ public class GuiMain extends JFrame{
 			}
 			lastn = p.getName();
 			lasti = i;
-			if(p == MainCPUScheduling.getInstance().getpEND()) {
+			if(p == MainCPUScheduling.getInstance().getSystem().getpEND()) {
 				containerMain.add(addJLabel(String.valueOf(i), locX - 5, locY));
 			}
 		}
@@ -129,9 +129,9 @@ public class GuiMain extends JFrame{
 	
 	private void createGuiTable(int locY, String name) {
 		String[] columns = {"Process", "priority", "burst", "arrival", "Turnaround", "Waiting"};
-		Object[][] list = new Object[MainCPUScheduling.getInstance().getListPro().size()][6];
+		Object[][] list = new Object[MainCPUScheduling.getInstance().getSystem().getListPro().size()][6];
 		int count = 0;
-		for(Process p : MainCPUScheduling.getInstance().getListPro()) {
+		for(Process p : MainCPUScheduling.getInstance().getSystem().getListPro()) {
 			list[count][0] = p.getName();
 			list[count][1] = p.getPriority();
 			list[count][2] = p.getBurst();
