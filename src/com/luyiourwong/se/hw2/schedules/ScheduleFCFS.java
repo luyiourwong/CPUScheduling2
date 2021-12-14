@@ -14,13 +14,12 @@ import com.luyiourwong.se.hw2.Process;
  */
 public class ScheduleFCFS extends Schedule{
 
-	public ScheduleFCFS(List<Process> listPro) {
-		super(listPro);
+	public ScheduleFCFS() {
 		setAlg(ScheduleList.FCFS);
 	}
 
 	@Override
-	protected Map<Integer, Process> createScheduling(){
+	protected Map<Integer, Process> createScheduling(List<Process> listPro){
 		Logger.logAlg(getAlg(), "========================");
 		
 		Map<Integer, Process> mapSch = new TreeMap<Integer, Process>();
@@ -28,7 +27,7 @@ public class ScheduleFCFS extends Schedule{
 		//如果第一個p的到達時間不是0, 前面補idle
 		int next = 0;
 		
-		for(Process p : getListPro()) {
+		for(Process p : listPro) {
 			//如果下一個時間比到達時間早, 補idle
 			if(next < p.getArrival()) {
 				mapSch.put(next, MainCPUScheduling.getInstance().getSystem().getpIdle());

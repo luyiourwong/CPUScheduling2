@@ -10,14 +10,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-import com.luyiourwong.se.hw2.schedules.Schedule;
-import com.luyiourwong.se.hw2.schedules.ScheduleFCFS;
-import com.luyiourwong.se.hw2.schedules.ScheduleSJF;
+import com.luyiourwong.se.hw2.schedules.*;
 
 public class SystemSchedule {
 
 	private List<String> listInput;
 	private List<Process> listPro;
+	private List<Schedule> listSch;
+	
+	public SystemSchedule() {
+		initSchedules();
+	}
 	
 	private List<String> getListInput() {
 		return listInput;
@@ -35,6 +38,26 @@ public class SystemSchedule {
 		this.listPro = listPro;
 	}
 	
+	public List<Schedule> getListSch() {
+		return listSch;
+	}
+
+	public void setListSch(List<Schedule> listSch) {
+		this.listSch = listSch;
+	}
+
+	public void initSchedules() {
+		setListSch(new ArrayList<Schedule>());
+		
+		getListSch().add(new ScheduleFCFS());
+		getListSch().add(new ScheduleSJF());
+		getListSch().add(new SchedulePF());
+		
+		for(Schedule sch : getListSch()) {
+			Logger.log("[initSchedules] load Schedule: " + sch.getAlg().getFullName());
+		}
+	}
+	
 	public void scheduling(File file) {
 		//init gui
 		MainCPUScheduling.getInstance().getGuiMain().clearGui();
@@ -49,15 +72,11 @@ public class SystemSchedule {
 			Logger.log("[after sort] process " + p.getName() + " : " + p.getPriority() + ", " + p.getBurst() + ", " + p.getArrival());
 		}
 		
-		//FCFS
-		Schedule fcfs = new ScheduleFCFS(getListPro());
-		fcfs.runSchedule();
-		MainCPUScheduling.getInstance().getGuiMain().createAlgGui(fcfs);
-		
-		//SJF
-		Schedule sjf = new ScheduleSJF(getListPro());
-		sjf.runSchedule();
-		MainCPUScheduling.getInstance().getGuiMain().createAlgGui(sjf);
+		//run
+		for(Schedule sch : getListSch()) {
+			sch.runSchedule(getListPro());
+			MainCPUScheduling.getInstance().getGuiMain().createAlgGui(sch);
+		}
 	}
 	
 	/**

@@ -16,8 +16,6 @@ public class Schedule {
 
 	private ScheduleList alg;
 	
-	private List<Process> listPro;
-	
 	private Map<Integer, Process> mapSch;
 	private Map<Process, Integer> mapTimeRun;
 	private Map<Process, Integer> mapTimeWait;
@@ -25,8 +23,8 @@ public class Schedule {
 	/**
 	 * @param listPro from MainCPUScheduling
 	 */
-	public Schedule(List<Process> listPro){
-		setListPro(listPro);
+	public Schedule(){
+		
 	}
 	
 	public ScheduleList getAlg() {
@@ -35,14 +33,6 @@ public class Schedule {
 
 	protected void setAlg(ScheduleList alg) {
 		this.alg = alg;
-	}
-
-	protected List<Process> getListPro() {
-		return listPro;
-	}
-
-	private void setListPro(List<Process> listPro) {
-		this.listPro = listPro;
 	}
 
 	public Map<Integer, Process> getMapSch() {
@@ -73,13 +63,13 @@ public class Schedule {
 	 * create mapScheduling, create TurnaroundTime, create WaitingTime and print all.
 	 * @return false if this.ListPro is empty, else true
 	 */
-	public boolean runSchedule() {
-		if(getListPro() == null) {
+	public boolean runSchedule(List<Process> listPro) {
+		if(listPro == null) {
 			return false;
 		} else {
-			setMapSch(createScheduling());
-			setMapTimeRun(createTurnaroundTime());
-			setMapTimeWait(createWaitingTime());
+			setMapSch(createScheduling(listPro));
+			setMapTimeRun(createTurnaroundTime(listPro));
+			setMapTimeWait(createWaitingTime(listPro));
 			
 			printSchedule();
 			return true;
@@ -117,15 +107,15 @@ public class Schedule {
 	 * !! REPLACE THIS !!
 	 * @return mapScheduling (default:null)
 	 */
-	protected Map<Integer, Process> createScheduling(){
+	protected Map<Integer, Process> createScheduling(List<Process> listPro){
 		return null;
 	}
 	
-	private Map<Process, Integer> createTurnaroundTime(){
+	private Map<Process, Integer> createTurnaroundTime(List<Process> listPro){
 		Map<Process, Integer> mapTimeRun = new TreeMap<Process, Integer>();
 		
 		boolean next = false;
-		for(Process pro : getListPro()) {
+		for(Process pro : listPro) {
 			int lastRunTime = 0;
 			for(Integer i : getMapSch().keySet()) {
 				if(next) {
@@ -143,10 +133,10 @@ public class Schedule {
 		return mapTimeRun;
 	}
 	
-	private Map<Process, Integer> createWaitingTime(){
+	private Map<Process, Integer> createWaitingTime(List<Process> listPro){
 		Map<Process, Integer> mapTimeWait = new TreeMap<Process, Integer>();
 		
-		for(Process pro : getListPro()) {
+		for(Process pro : listPro) {
 			for(Integer i : getMapSch().keySet()) {
 				if(getMapSch().get(i) == pro) {
 					mapTimeWait.put(pro, i - pro.getArrival());

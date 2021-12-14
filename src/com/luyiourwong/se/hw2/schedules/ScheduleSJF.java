@@ -14,19 +14,18 @@ import com.luyiourwong.se.hw2.Process;
  */
 public class ScheduleSJF extends Schedule{
 
-	public ScheduleSJF(List<Process> listPro) {
-		super(listPro);
+	public ScheduleSJF() {
 		setAlg(ScheduleList.SJF);
 	}
 
 	@Override
-	protected Map<Integer, Process> createScheduling(){
+	protected Map<Integer, Process> createScheduling(List<Process> listPro){
 		Logger.logAlg(getAlg(), "========================");
 		
 		//init
 		Map<Integer, Process> mapSch = new TreeMap<Integer, Process>();
 		Map<Process, Integer> mapPro = new TreeMap<Process, Integer>();
-		for(Process p : getListPro()) {
+		for(Process p : listPro) {
 			mapPro.put(p, p.getBurst());
 		}
 		

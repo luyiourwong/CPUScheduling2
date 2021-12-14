@@ -2,13 +2,12 @@ package com.luyiourwong.se.hw2.schedules;
 
 public enum ScheduleList {
 
-	FCFS("FCFS", "First Come First Served"),
-	SJF("SJF", "Shortest Job First"),
-	HRR("HRR", "Highest Response Ratio"),
-	PF("PF", "Priority First"),
-	RR("RR", "Round Robin"),
-	MQ("MQ", "Multilevel Queue"),
-	MFQ("MFQ", "Multilevel Feedback Queue");
+	FCFS("FCFS", "First Come First Served"),   //Done
+	SJF("SJF", "Shortest Job First"),          //Done
+	PF("PF", "Priority First"),                //Done
+	RR("RR", "Round Robin"),                   //Framework
+	MQ("MQ", "Multilevel Queue"),              //Framework
+	MFQ("MFQ", "Multilevel Feedback Queue");   //Framework
 	
 	/*
 	 * 
