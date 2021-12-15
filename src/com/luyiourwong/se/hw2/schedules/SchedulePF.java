@@ -29,11 +29,11 @@ public class SchedulePF extends Schedule{
 			mapPro.put(p, p.getBurst());
 		}
 		
-		//如果第一個p的到達時間不是0, 前面補idle
+		//init
 		Process nowP = null;
 		int next = 0;
 		
-		for(int count = 0; count <= 999; count++) {
+		for(int count = 0; count <= RUNTIME; count++) {
 			next -= 1;
 			//如果nowP已經跑完, 換下一個
 			if(next <= 0) {

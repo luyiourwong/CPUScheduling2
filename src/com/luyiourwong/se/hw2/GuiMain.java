@@ -1,18 +1,24 @@
 package com.luyiourwong.se.hw2;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 
 import com.luyiourwong.se.hw2.schedules.Schedule;
 
@@ -26,25 +32,11 @@ public class GuiMain extends JFrame{
 	 */
 	
 	private int layoutX, layoutY;
-	private BorderLayout layoutMain;
 	private Container containerMain;
 	
 	private int picmult = 10;
 	
-	private static final int locYdefault = 50;
-	private int locY = locYdefault;
-	
-	private int getLocY() {
-		return locY;
-	}
-
-	private void setLocY(int locY) {
-		this.locY = locY;
-	}
-	
-	private void addLocY(int locY) {
-		setLocY(getLocY() + locY);
-	}
+	private static final int locYdefault = 20;
 
 	public void initGui() {
 		/*
@@ -56,11 +48,10 @@ public class GuiMain extends JFrame{
 		setTitle(frameName);
 		setResizable(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		layoutMain = new BorderLayout();
-		setLayout(layoutMain);
 		
+		BorderLayout layoutMain = new BorderLayout();
 		containerMain = getContentPane();
-		containerMain.setLayout(null);
+		containerMain.setLayout(layoutMain);
 		
 		/*
 		 * Basic
@@ -76,7 +67,6 @@ public class GuiMain extends JFrame{
 	
 	public void clearGui() {
 		containerMain.removeAll();
-		setLocY(locYdefault);
 		addChooseFileBtn();
 		containerMain.revalidate();
 		containerMain.repaint();
@@ -96,40 +86,74 @@ public class GuiMain extends JFrame{
 			}
 		});
 		btn_cf.setBounds(0, 0, 75, 25);
-		containerMain.add(btn_cf);
+		containerMain.add(btn_cf, BorderLayout.NORTH);
 	}
 	
-	public void createAlgGui(Schedule sch) {
-		containerMain.add(addJLabel(sch.getAlg().getFullName(), 15, getLocY()));
-		addLocY(30);
-		createGuiPic(getLocY(), sch.getAlg().getNick(), sch.getMapSch());
-		addLocY(70);
-		createGuiTable(getLocY(), sch.getAlg().getNick());
+	public void createAlgGuis(List<Schedule> listSch) {
+		JPanel jp_algs = new JPanel();
+		BoxLayout layoutNotes = new BoxLayout(jp_algs, BoxLayout.PAGE_AXIS);
+		jp_algs.setLayout(layoutNotes);
+		
+		for(Schedule sch : listSch) {
+			JPanel p = createAlgGui(sch);
+			jp_algs.add(p);
+		}
+		
+		JScrollPane sp = new JScrollPane(jp_algs, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        containerMain.add(sp, BorderLayout.CENTER);
+	}
+	
+	private int color = 0;
+	
+	private JPanel createAlgGui(Schedule sch) {
+		int locY = locYdefault;
+		
+		JPanel jp = new JPanel();
+		jp.setPreferredSize(new Dimension(1000, 300));
+		jp.setLayout(null);
+		if (color == 0) {
+			color = 1;
+			jp.setBackground(Color.GREEN);
+		} else {
+			color = 0;
+			jp.setBackground(Color.YELLOW);
+		}
+		
+		jp.add(addJLabel(sch.getAlg().getFullName(), 15, locY));
+		locY += 30;
+		
+		createGuiPic(jp, locY, sch.getAlg().getNick(), sch.getMapSch());
+		locY += 70;
+		
+		createGuiTable(jp, locY, sch.getAlg().getNick());
+		
+		return jp;
 	}
 
-	private void createGuiPic(int locY, String name, Map<Integer, Process> map) {
+	private void createGuiPic(JPanel jp, int locY, String name, Map<Integer, Process> map) {
 		int locX = 10;
-		containerMain.add(addJLabel(name, locX - 5, locY + 25));
+		jp.add(addJLabel(name, locX - 5, locY + 25));
 		locX += 30;
+		
 		String lastn = "";
 		int lasti = -1;
 		for(Integer i : map.keySet()) {
 			Process p = map.get(i);
 			if(lasti != -1) {
-				containerMain.add(addJLabel(String.valueOf(lasti), locX, locY));
+				jp.add(addJLabel(String.valueOf(lasti), locX, locY));
 				int length = (i - lasti);
-				containerMain.add(addJButton(lastn, locX, locY + 25, length));
+				jp.add(addJButton(lastn, locX, locY + 25, length));
 				locX += (length * picmult);
 			}
 			lastn = p.getName();
 			lasti = i;
 			if(p == MainCPUScheduling.getInstance().getSystem().getpEND()) {
-				containerMain.add(addJLabel(String.valueOf(i), locX - 5, locY));
+				jp.add(addJLabel(String.valueOf(i), locX - 5, locY));
 			}
 		}
 	}
 	
-	private void createGuiTable(int locY, String name) {
+	private void createGuiTable(JPanel jp, int locY, String name) {
 		String[] columns = {"Process", "priority", "burst", "arrival", "Turnaround", "Waiting"};
 		Object[][] list = new Object[MainCPUScheduling.getInstance().getSystem().getListPro().size()][6];
 		int count = 0;
@@ -149,8 +173,8 @@ public class GuiMain extends JFrame{
 		
 		int y = ((count) * 17) + 20;
 		scrollPane.setBounds(0, locY, layoutX, y);
-		addLocY(y);
-		containerMain.add(scrollPane);
+		locY += y;
+		jp.add(scrollPane);
 	}
 	
 	private JLabel addJLabel(String title, int x, int y) {

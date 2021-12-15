@@ -29,11 +29,11 @@ public class ScheduleSJF extends Schedule{
 			mapPro.put(p, p.getBurst());
 		}
 		
-		//如果第一個p的到達時間不是0, 前面補idle
+		//init
 		Process nowP = null;
 		int next = 0;
 		
-		for(int count = 0; count <= 999; count++) {
+		for(int count = 0; count <= RUNTIME; count++) {
 			next -= 1;
 			//如果nowP已經跑完, 換下一個
 			if(next <= 0) {
@@ -86,7 +86,7 @@ public class ScheduleSJF extends Schedule{
 							Logger.logAlg(getAlg(), count, "left " + (next+1) + " : " + nowP.getName());
 							Logger.logAlg(getAlg(), count, "cut " + count + " : " + p.getName() + " ==========");
 							nowP = p;
-							next = p.getBurst();
+							next = mapPro.get(p);
 						} else {
 							Logger.logAlg(getAlg(), count, "" + p.getName() + " waiting for : " + p.getArrival());
 						}

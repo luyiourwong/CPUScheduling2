@@ -13,6 +13,8 @@ import com.luyiourwong.se.hw2.Process;
  * To run this, just use runSchedule() after input listPro.
  */
 public class Schedule {
+	
+	protected final static int RUNTIME = 999;
 
 	private ScheduleList alg;
 	

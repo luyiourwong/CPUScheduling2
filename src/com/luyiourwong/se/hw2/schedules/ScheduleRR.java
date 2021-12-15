@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.luyiourwong.se.hw2.Logger;
+import com.luyiourwong.se.hw2.MainCPUScheduling;
 import com.luyiourwong.se.hw2.Process;
 
 /**
@@ -21,10 +22,99 @@ public class ScheduleRR extends Schedule{
 	protected Map<Integer, Process> createScheduling(List<Process> listPro){
 		Logger.logAlg(getAlg(), "========================");
 		
+		//init
 		Map<Integer, Process> mapSch = new TreeMap<Integer, Process>();
+		Map<Process, Integer> mapPro = new TreeMap<Process, Integer>();
+		for(Process p : listPro) {
+			mapPro.put(p, p.getBurst());
+		}
+		
+		//init
+		Process nowP = null;
+		int next = 0;
+		int robin = 0;
+		
+		for(int count = 0; count <= RUNTIME; count++) {
+			//run
+			next -= 1;
+			robin += 1;
+			
+			//如果nowP已經跑完, 換下一個
+			if(next <= 0) {
+				//重置計數器
+				next = 0;
+				robin = 0;
+				//移除nowP
+				if(nowP != null && nowP != MainCPUScheduling.getInstance().getSystem().getpIdle() && nowP != MainCPUScheduling.getInstance().getSystem().getpEND()) {
+					mapPro.remove(nowP);
+				}
+				//如果已經沒有p要跑, 補上END並結束
+				if(mapPro == null || mapPro.isEmpty()) {
+					mapSch.put(count, MainCPUScheduling.getInstance().getSystem().getpEND());
+					Logger.logAlg(getAlg(), count, "END " + " ==========");
+					break;
+				}
+				//如果還有p要跑
+				for(Process p : mapPro.keySet()) {
+					//如果下一個p還沒到, 補上Idle
+					if(count < p.getArrival()) {
+						mapSch.put(count, MainCPUScheduling.getInstance().getSystem().getpIdle());
+						Logger.logAlg(getAlg(), count, "switch " + MainCPUScheduling.getInstance().getSystem().getpIdle().getName() + " ==========");
+						nowP = MainCPUScheduling.getInstance().getSystem().getpIdle();
+						next = p.getArrival() - count;
+					//如果下一個p到了, 切換nowP
+					} else {
+						mapSch.put(count, p);
+						Logger.logAlg(getAlg(), count, "switch " + p.getName() + " ==========");
+						nowP = p;
+						next += mapPro.get(p);
+					}
+					break;
+				}
+			//如果nowP沒跑完, 檢查有沒有人要插隊
+			} else {
+				Logger.logAlg(getAlg(), count, "run " + nowP.getName() + " : " + next);
+				for(Process p : mapPro.keySet()) {
+					//檢查是否為第一個p
+					if(p == nowP) {
+						continue;
+					}
+					//如果有p到達
+					if(count > p.getArrival()) {
+						//並且該p的使用時間已經大於ChangeTime
+						if(robin > getChangeTime()) {
+							//switch
+							count -= 1;
+							mapPro.put(nowP, (next+1));
+							mapSch.put(count, p);
+							Logger.logAlg(getAlg(), count, "[" + robin + "]" + "left " + (next+1) + " : " + nowP.getName());
+							Logger.logAlg(getAlg(), count, "[" + robin + "]" + "cut " + count + " : " + p.getName() + " ==========");
+							nowP = p;
+							next = mapPro.get(p);
+							
+							//reset
+							robin = 0;
+						} else {
+							Logger.logAlg(getAlg(), count, "[" + robin + "]" + p.getName() + " waiting from : " + p.getArrival());
+						}
+					}
+					break;
+				}
+			}
+		}
 		
 		Logger.logAlg(getAlg(), "========================");
 		
 		return mapSch;
+	}
+	
+	private int changeTime = -1;
+	
+	private int getChangeTime() {
+		return changeTime;
+	}
+
+	public void setChangeTime(int changeTime) {
+		this.changeTime = changeTime;
 	}
 }

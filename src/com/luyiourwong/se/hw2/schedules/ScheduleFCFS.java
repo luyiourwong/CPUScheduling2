@@ -24,7 +24,7 @@ public class ScheduleFCFS extends Schedule{
 		
 		Map<Integer, Process> mapSch = new TreeMap<Integer, Process>();
 		
-		//如果第一個p的到達時間不是0, 前面補idle
+		//init
 		int next = 0;
 		
 		for(Process p : listPro) {

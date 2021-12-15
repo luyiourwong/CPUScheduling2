@@ -52,6 +52,7 @@ public class SystemSchedule {
 		getListSch().add(new ScheduleFCFS());
 		getListSch().add(new ScheduleSJF());
 		getListSch().add(new SchedulePF());
+		getListSch().add(new ScheduleRR());
 		
 		for(Schedule sch : getListSch()) {
 			Logger.log("[initSchedules] load Schedule: " + sch.getAlg().getFullName());
@@ -74,9 +75,15 @@ public class SystemSchedule {
 		
 		//run
 		for(Schedule sch : getListSch()) {
+			//special setup
+			if(sch instanceof ScheduleRR) {
+				((ScheduleRR)sch).setChangeTime(getChangeTime());
+			}
+			
+			//normal
 			sch.runSchedule(getListPro());
-			MainCPUScheduling.getInstance().getGuiMain().createAlgGui(sch);
 		}
+		MainCPUScheduling.getInstance().getGuiMain().createAlgGuis(getListSch());
 	}
 	
 	/**
