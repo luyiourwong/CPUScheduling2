@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.luyiourwong.se.hw2.Logger;
-import com.luyiourwong.se.hw2.MainCPUScheduling;
-import com.luyiourwong.se.hw2.Process;
 
 /**
  * Priority First
@@ -40,12 +38,12 @@ public class SchedulePF extends Schedule{
 				//重置計數器
 				next = 0;
 				//移除nowP
-				if(nowP != null && nowP != MainCPUScheduling.getInstance().getSystem().getpIdle() && nowP != MainCPUScheduling.getInstance().getSystem().getpEND()) {
+				if(nowP != null && nowP != SystemSchedule.pIdle && nowP != SystemSchedule.pEND) {
 					mapPro.remove(nowP);
 				}
 				//如果已經沒有p要跑, 補上END並結束
 				if(mapPro.isEmpty()) {
-					mapSch.put(count, MainCPUScheduling.getInstance().getSystem().getpEND());
+					mapSch.put(count, SystemSchedule.pEND);
 					Logger.logAlg(getAlg(), count, "END " + " ==========");
 					break;
 				}
@@ -53,9 +51,9 @@ public class SchedulePF extends Schedule{
 				for(Process p : mapPro.keySet()) {
 					//如果下一個p還沒到, 補上Idle
 					if(count < p.getArrival()) {
-						mapSch.put(count, MainCPUScheduling.getInstance().getSystem().getpIdle());
-						Logger.logAlg(getAlg(), count, "switch " + MainCPUScheduling.getInstance().getSystem().getpIdle().getName() + " ==========");
-						nowP = MainCPUScheduling.getInstance().getSystem().getpIdle();
+						mapSch.put(count, SystemSchedule.pIdle);
+						Logger.logAlg(getAlg(), count, "switch " + SystemSchedule.pIdle.getName() + " ==========");
+						nowP = SystemSchedule.pIdle;
 						next = p.getArrival() - count;
 					//如果下一個p到了, 切換nowP
 					} else {

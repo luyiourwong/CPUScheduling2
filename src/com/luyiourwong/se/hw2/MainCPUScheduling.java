@@ -1,5 +1,13 @@
 package com.luyiourwong.se.hw2;
 
+import java.io.File;
+import java.util.List;
+
+import com.luyiourwong.se.hw2.gui.GuiMain;
+import com.luyiourwong.se.hw2.schedules.Process;
+import com.luyiourwong.se.hw2.schedules.Schedule;
+import com.luyiourwong.se.hw2.schedules.SystemSchedule;
+
 /**
  * https://sites.google.com/view/luyr-se-final
  */
@@ -41,7 +49,7 @@ public class MainCPUScheduling{
 	private GuiMain guiMain;
 	private SystemSchedule system;
 	
-	public GuiMain getGuiMain() {
+	private GuiMain getGuiMain() {
 		return guiMain;
 	}
 
@@ -49,7 +57,7 @@ public class MainCPUScheduling{
 		this.guiMain = guiMain;
 	}
 	
-	public SystemSchedule getSystem() {
+	private SystemSchedule getSystem() {
 		return system;
 	}
 
@@ -63,7 +71,6 @@ public class MainCPUScheduling{
 
 	private void init() {
 		setup();
-		getSystem().initTemplateProcess();
 	}
 	
 	private void setup() {
@@ -71,7 +78,25 @@ public class MainCPUScheduling{
 		setGuiMain(new GuiMain());
 	}
 	
+	/*
+	 * method
+	 */
+	
 	private void showGui() {
 		getGuiMain().initGui();
+	}
+	
+	public void scheduling(File file) {
+		getGuiMain().clearGui();
+		List<Schedule> list = getSystem().scheduling(file);
+		getGuiMain().createAlgGuis(list);
+	}
+	
+	public List<Process> getListPro(){
+		return getSystem().getListPro();
+	}
+	
+	public Process getpEND() {
+		return getSystem().getpEND();
 	}
 }

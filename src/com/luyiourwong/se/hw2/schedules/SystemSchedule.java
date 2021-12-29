@@ -1,4 +1,4 @@
-package com.luyiourwong.se.hw2;
+package com.luyiourwong.se.hw2.schedules;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-import com.luyiourwong.se.hw2.schedules.*;
+import com.luyiourwong.se.hw2.Logger;
 
 public class SystemSchedule {
 
@@ -59,16 +59,12 @@ public class SystemSchedule {
 		}
 	}
 	
-	public void scheduling(File file) {
-		//init gui
-		MainCPUScheduling.getInstance().getGuiMain().clearGui();
+	public List<Schedule> scheduling(File file) {
+		//scheduling setup
+		List<String> listInput = this.readFileFromFile(file);
+		schedulingSetup(listInput);
 		
-		//get input from file and create list process
-		setListInput(this.readFileFromFile(file));
-		setListPro(this.createListPro(getListInput()));
-		
-		//sort by arrival & print
-		Collections.sort(getListPro());
+		//print
 		for(Process p : getListPro()) {
 			Logger.log("[after sort] process " + p.getName() + " : " + p.getPriority() + ", " + p.getBurst() + ", " + p.getArrival());
 		}
@@ -83,7 +79,17 @@ public class SystemSchedule {
 			//normal
 			sch.runSchedule(getListPro());
 		}
-		MainCPUScheduling.getInstance().getGuiMain().createAlgGuis(getListSch());
+		return getListSch();
+	}
+	
+	/**
+	 * get input from file, create list process, sort by arrival
+	 * @param listInput
+	 */
+	private void schedulingSetup(List<String> listInput) {
+		setListInput(listInput);
+		setListPro(this.createListPro(getListInput()));
+		Collections.sort(getListPro());
 	}
 	
 	/**
@@ -233,27 +239,14 @@ public class SystemSchedule {
 	/*
 	 * scheduling template Process
 	 */
-	private Process pIdle;
-	private Process pEND;
-	
-	public void initTemplateProcess() {
-		setpIdle(new Process("/", 0, 0, 0));
-		setpEND(new Process("END", 0, 0, 0));
-	}
+	protected static Process pIdle = new Process("/", 0, 0, 0);
+	protected static Process pEND = new Process("END", 0, 0, 0);
 	
 	public Process getpIdle() {
 		return pIdle;
 	}
 
-	private void setpIdle(Process pIdle) {
-		this.pIdle = pIdle;
-	}
-
 	public Process getpEND() {
 		return pEND;
-	}
-
-	private void setpEND(Process pEND) {
-		this.pEND = pEND;
 	}
 }

@@ -1,4 +1,4 @@
-package com.luyiourwong.se.hw2;
+package com.luyiourwong.se.hw2.schedules;
 
 import java.util.HashMap;
 import java.util.Map;

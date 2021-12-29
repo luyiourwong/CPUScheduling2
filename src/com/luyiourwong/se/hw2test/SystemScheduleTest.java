@@ -1,12 +1,7 @@
-/**
- * 
- */
 package com.luyiourwong.se.hw2test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.File;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -14,24 +9,19 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.luyiourwong.se.hw2.MainCPUScheduling;
+import com.luyiourwong.se.hw2.schedules.SystemSchedule;
 
 /**
  *
  */
-@SuppressWarnings("unused")
-class MainCPUSchedulingTest {
-	
-	static MainCPUScheduling instance;
+class SystemScheduleTest {
 
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@SuppressWarnings("static-access")
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		instance = new MainCPUScheduling();
-		instance.setInstance(instance);
+		new SystemSchedule();
 	}
 
 	/**
@@ -63,12 +53,11 @@ class MainCPUSchedulingTest {
 	 */
 
 	@Test
-	void scheduling() {
+	void testSetListInput() {
 		/*
 		 * values
 		 */
-		//File file;
-		//instance.scheduling(file);
+		
 		
 		/*
 		 * actual

@@ -6,8 +6,7 @@ public enum ScheduleList {
 	SJF("SJF", "Shortest Job First"),          //Done
 	PF("PF", "Priority First"),                //Done
 	RR("RR", "Round Robin"),                   //Done
-	MQ("MQ", "Multilevel Queue"),              //Framework
-	MFQ("MFQ", "Multilevel Feedback Queue");   //Framework
+	;
 	
 	/*
 	 * 

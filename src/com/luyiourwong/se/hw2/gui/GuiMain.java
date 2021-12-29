@@ -1,4 +1,4 @@
-package com.luyiourwong.se.hw2;
+package com.luyiourwong.se.hw2.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,6 +20,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 
+import com.luyiourwong.se.hw2.Logger;
+import com.luyiourwong.se.hw2.MainCPUScheduling;
+import com.luyiourwong.se.hw2.schedules.Process;
 import com.luyiourwong.se.hw2.schedules.Schedule;
 
 public class GuiMain extends JFrame{
@@ -81,7 +84,7 @@ public class GuiMain extends JFrame{
 				if (returnValue == JFileChooser.APPROVE_OPTION){
 					File selectedFile = fileChooser.getSelectedFile();
 					Logger.log("[select file] " + selectedFile.getName());
-					MainCPUScheduling.getInstance().getSystem().scheduling(selectedFile);
+					MainCPUScheduling.getInstance().scheduling(selectedFile);
 				}
 			}
 		});
@@ -147,7 +150,7 @@ public class GuiMain extends JFrame{
 			}
 			lastn = p.getName();
 			lasti = i;
-			if(p == MainCPUScheduling.getInstance().getSystem().getpEND()) {
+			if(p == MainCPUScheduling.getInstance().getpEND()) {
 				jp.add(addJLabel(String.valueOf(i), locX - 5, locY));
 			}
 		}
@@ -155,9 +158,9 @@ public class GuiMain extends JFrame{
 	
 	private void createGuiTable(JPanel jp, int locY, String name) {
 		String[] columns = {"Process", "priority", "burst", "arrival", "Turnaround", "Waiting"};
-		Object[][] list = new Object[MainCPUScheduling.getInstance().getSystem().getListPro().size()][6];
+		Object[][] list = new Object[MainCPUScheduling.getInstance().getListPro().size()][6];
 		int count = 0;
-		for(Process p : MainCPUScheduling.getInstance().getSystem().getListPro()) {
+		for(Process p : MainCPUScheduling.getInstance().getListPro()) {
 			list[count][0] = p.getName();
 			list[count][1] = p.getPriority();
 			list[count][2] = p.getBurst();
