@@ -108,5 +108,19 @@ public class Process implements Comparable<Process>{
 		return this.getArrival() - o.getArrival();
 	}
 
-	
+	public boolean equals(Process o) {
+		if (!this.getName().equalsIgnoreCase(o.getName())) {
+			return false;
+		}
+		if (this.getPriority() != o.getPriority()) {
+			return false;
+		}
+		if (this.getBurst() != o.getBurst()) {
+			return false;			
+		}
+		if (this.getArrival() != o.getArrival()) {
+			return false;
+		}
+        return true;
+    }
 }

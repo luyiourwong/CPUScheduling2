@@ -57,6 +57,9 @@ public class SystemSchedule {
 		for(Schedule sch : getListSch()) {
 			Logger.log("[initSchedules] load Schedule: " + sch.getAlg().getFullName());
 		}
+		
+		setListInput(new ArrayList<String>());
+		setListPro(new ArrayList<Process>());
 	}
 	
 	public List<Schedule> scheduling(File file) {
@@ -70,6 +73,23 @@ public class SystemSchedule {
 		}
 		
 		//run
+		schedulingSchedules();
+		
+		return getListSch();
+	}
+	
+	/**
+	 * get input from file, create list process, sort by arrival
+	 * @param listInput
+	 */
+	public void schedulingSetup(List<String> listInput) {
+		setListInput(listInput);
+		setListPro(this.createListPro(getListInput()));
+		Collections.sort(getListPro());
+	}
+	
+	public void schedulingSchedules() {
+		//run
 		for(Schedule sch : getListSch()) {
 			//special setup
 			if(sch instanceof ScheduleRR) {
@@ -79,17 +99,6 @@ public class SystemSchedule {
 			//normal
 			sch.runSchedule(getListPro());
 		}
-		return getListSch();
-	}
-	
-	/**
-	 * get input from file, create list process, sort by arrival
-	 * @param listInput
-	 */
-	private void schedulingSetup(List<String> listInput) {
-		setListInput(listInput);
-		setListPro(this.createListPro(getListInput()));
-		Collections.sort(getListPro());
 	}
 	
 	/**
