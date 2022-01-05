@@ -18,8 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ScrollPaneConstants;
-
 import com.luyiourwong.se.hw2.MainCPUScheduling;
 import com.luyiourwong.se.hw2.schedules.Process;
 import com.luyiourwong.se.hw2.schedules.Schedule;
@@ -37,8 +35,6 @@ public class GuiMain extends JFrame{
 	private Container containerMain;
 	
 	private int picmult = 10;
-	
-	private static final int locYdefault = 20;
 
 	public void initGui() {
 		/*
@@ -103,18 +99,32 @@ public class GuiMain extends JFrame{
 			jp_algs.add(p);
 		}
 		
-		JScrollPane sp = new JScrollPane(jp_algs, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane sp = new JScrollPane(jp_algs);
         containerMain.add(sp, BorderLayout.CENTER);
 	}
 	
 	private int color = 0;
 	
-	private JPanel createAlgGui(Schedule sch) {
-		int locY = locYdefault;
+	private int getMapX(Map<Integer, Process> map) {
+		int x = 100;
+		int lasti = -1;
+		for(Integer i : map.keySet()) {
+			if(lasti != -1) {
+				int length = (i - lasti);
+				x += (length * picmult);
+			}
+			lasti = i;
+		}
 		
+		return x;
+	}
+	
+	private JPanel createAlgGui(Schedule sch) {
 		JPanel jp = new JPanel();
-		jp.setPreferredSize(new Dimension(1000, 300));
-		jp.setLayout(null);
+		int jpX = getMapX(sch.getMapSch());
+		int jpY = (MainCPUScheduling.getInstance().getSystem().getListPro().size() * 20) + 75;
+		jp.setPreferredSize(new Dimension(jpX, jpY));
+		jp.setLayout(new BorderLayout());
 		if (color == 0) {
 			color = 1;
 			jp.setBackground(Color.GREEN);
@@ -123,19 +133,24 @@ public class GuiMain extends JFrame{
 			jp.setBackground(Color.YELLOW);
 		}
 		
-		jp.add(addJLabel(sch.getAlg().getFullName(), 15, locY));
-		locY += 30;
+		jp.add(addJLabel(sch.getAlg().getFullName(), 15, 20), BorderLayout.NORTH);
 		
-		createGuiPic(jp, locY, sch.getAlg().getNick(), sch.getMapSch());
-		locY += 70;
+		JPanel jpg = createGuiPic(sch.getAlg().getNick(), sch.getMapSch(), jpX, jpY);
+		jp.add(jpg, BorderLayout.CENTER);
 		
-		createGuiTable(jp, locY, sch.getAlg().getNick());
+		JTable jta = createGuiTable(sch.getAlg().getNick());
+		jp.add(jta, BorderLayout.SOUTH);
 		
 		return jp;
 	}
 
-	private void createGuiPic(JPanel jp, int locY, String name, Map<Integer, Process> map) {
+	private JPanel createGuiPic(String name, Map<Integer, Process> map, int X, int Y) {
+		JPanel jp = new JPanel();
+		jp.setPreferredSize(new Dimension(X, Y));
+		jp.setLayout(null);
+		
 		int locX = 10;
+		int locY = 0;
 		jp.add(addJLabel(name, locX - 5, locY + 25));
 		locX += 30;
 		
@@ -155,12 +170,22 @@ public class GuiMain extends JFrame{
 				jp.add(addJLabel(String.valueOf(i), locX - 5, locY));
 			}
 		}
+		
+		return jp;
 	}
 	
-	private void createGuiTable(JPanel jp, int locY, String name) {
+	private JTable createGuiTable(String name) {
 		String[] columns = {"Process", "priority", "burst", "arrival", "Turnaround", "Waiting"};
-		Object[][] list = new Object[MainCPUScheduling.getInstance().getSystem().getListPro().size()][6];
+		Object[][] list = new Object[MainCPUScheduling.getInstance().getSystem().getListPro().size() + 1][6];
+		
 		int count = 0;
+		list[count][0] = columns[0];
+		list[count][1] = columns[1];
+		list[count][2] = columns[2];
+		list[count][3] = columns[3];
+		list[count][4] = columns[4];
+		list[count][5] = columns[5];
+		count++;
 		for(Process p : MainCPUScheduling.getInstance().getSystem().getListPro()) {
 			list[count][0] = p.getName();
 			list[count][1] = p.getPriority();
@@ -170,15 +195,18 @@ public class GuiMain extends JFrame{
 			list[count][5] = p.getValue(Process.WAIT, name);
 			count++;
 		}
+		
 		JTable jt = new JTable(list, columns);
 		
-		JScrollPane scrollPane = new JScrollPane(jt);  
+		/*JScrollPane scrollPane = new JScrollPane(jt);  
 		jt.setFillsViewportHeight(true);
 		
 		int y = ((count) * 17) + 20;
 		scrollPane.setBounds(0, locY, layoutX, y);
 		locY += y;
-		jp.add(scrollPane);
+		jp.add(scrollPane);*/
+		
+		return jt;
 	}
 	
 	private JLabel addJLabel(String title, int x, int y) {
