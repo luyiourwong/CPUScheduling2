@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.luyiourwong.se.hw2.Logger;
-
 /**
  * Priority First
  *
@@ -18,7 +16,7 @@ public class SchedulePF extends Schedule{
 
 	@Override
 	protected Map<Integer, Process> createScheduling(List<Process> listPro){
-		Logger.logAlg(getAlg(), "========================");
+		SystemSchedule.logAlg(getAlg(), "========================");
 		
 		//init
 		Map<Integer, Process> mapSch = new TreeMap<Integer, Process>();
@@ -44,7 +42,7 @@ public class SchedulePF extends Schedule{
 				//如果已經沒有p要跑, 補上END並結束
 				if(mapPro.isEmpty()) {
 					mapSch.put(count, SystemSchedule.pEND);
-					Logger.logAlg(getAlg(), count, "END " + " ==========");
+					SystemSchedule.logAlg(getAlg(), count, "END " + " ==========");
 					break;
 				}
 				//如果還有p要跑
@@ -52,13 +50,13 @@ public class SchedulePF extends Schedule{
 					//如果下一個p還沒到, 補上Idle
 					if(count < p.getArrival()) {
 						mapSch.put(count, SystemSchedule.pIdle);
-						Logger.logAlg(getAlg(), count, "switch " + SystemSchedule.pIdle.getName() + " ==========");
+						SystemSchedule.logAlg(getAlg(), count, "switch " + SystemSchedule.pIdle.getName() + " ==========");
 						nowP = SystemSchedule.pIdle;
 						next = p.getArrival() - count;
 					//如果下一個p到了, 切換nowP
 					} else {
 						mapSch.put(count, p);
-						Logger.logAlg(getAlg(), count, "switch " + p.getName() + " ==========");
+						SystemSchedule.logAlg(getAlg(), count, "switch " + p.getName() + " ==========");
 						nowP = p;
 						next += mapPro.get(p);
 					}
@@ -66,7 +64,7 @@ public class SchedulePF extends Schedule{
 				}
 			//如果nowP沒跑完, 檢查有沒有人要插隊
 			} else {
-				Logger.logAlg(getAlg(), count, "run " + nowP.getName() + " : " + next);
+				SystemSchedule.logAlg(getAlg(), count, "run " + nowP.getName() + " : " + next);
 				boolean first = true;
 				for(Process p : mapPro.keySet()) {
 					//檢查是否為第一個p
@@ -81,12 +79,12 @@ public class SchedulePF extends Schedule{
 							count -= 1;
 							mapPro.put(nowP, (next+1));
 							mapSch.put(count, p);
-							Logger.logAlg(getAlg(), count, "left " + (next+1) + " : " + nowP.getName() + " (p=" + nowP.getPriority() + ")");
-							Logger.logAlg(getAlg(), count, "cut " + count + " : " + p.getName() + " (p=" + p.getPriority() + ")" + " ==========");
+							SystemSchedule.logAlg(getAlg(), count, "left " + (next+1) + " : " + nowP.getName() + " (p=" + nowP.getPriority() + ")");
+							SystemSchedule.logAlg(getAlg(), count, "cut " + count + " : " + p.getName() + " (p=" + p.getPriority() + ")" + " ==========");
 							nowP = p;
 							next = p.getBurst();
 						} else {
-							Logger.logAlg(getAlg(), count, "" + p.getName() + " waiting for : " + p.getArrival());
+							SystemSchedule.logAlg(getAlg(), count, "" + p.getName() + " waiting for : " + p.getArrival());
 						}
 					}
 					break;
@@ -94,7 +92,7 @@ public class SchedulePF extends Schedule{
 			}
 		}
 		
-		Logger.logAlg(getAlg(), "========================");
+		SystemSchedule.logAlg(getAlg(), "========================");
 		
 		return mapSch;
 	}

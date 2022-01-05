@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-import com.luyiourwong.se.hw2.Logger;
+import com.luyiourwong.se.hw2.MainCPUScheduling;
 
 public class SystemSchedule {
 
@@ -42,7 +42,7 @@ public class SystemSchedule {
 		return listSch;
 	}
 
-	public void setListSch(List<Schedule> listSch) {
+	private void setListSch(List<Schedule> listSch) {
 		this.listSch = listSch;
 	}
 
@@ -55,7 +55,7 @@ public class SystemSchedule {
 		getListSch().add(new ScheduleRR());
 		
 		for(Schedule sch : getListSch()) {
-			Logger.log("[initSchedules] load Schedule: " + sch.getAlg().getFullName());
+			log("[initSchedules] load Schedule: " + sch.getAlg().getFullName());
 		}
 		
 		setListInput(new ArrayList<String>());
@@ -64,12 +64,12 @@ public class SystemSchedule {
 	
 	public List<Schedule> scheduling(File file) {
 		//scheduling setup
-		List<String> listInput = this.readFileFromFile(file);
+		List<String> listInput = this.readInputFromFile(file);
 		schedulingSetup(listInput);
 		
 		//print
 		for(Process p : getListPro()) {
-			Logger.log("[after sort] process " + p.getName() + " : " + p.getPriority() + ", " + p.getBurst() + ", " + p.getArrival());
+			log("[after sort] process " + p.getName() + " : " + p.getPriority() + ", " + p.getBurst() + ", " + p.getArrival());
 		}
 		
 		//run
@@ -106,8 +106,8 @@ public class SystemSchedule {
 	 * @param file
 	 * @return
 	 */
-	private List<String> readFileFromFile(File file) {
-		Logger.logDEBUG("[read file] ========================");
+	private List<String> readInputFromFile(File file) {
+		logDEBUG("[read file] ========================");
 		
 		/*
 		 * load file
@@ -129,7 +129,7 @@ public class SystemSchedule {
 		while(scan.hasNext()){
 			String next = scan.next();
 			listInputs.add(next);
-			Logger.logDEBUG("[read file] read: " + next);
+			logDEBUG("[read file] read: " + next);
 		}
 		
 		/*
@@ -147,7 +147,7 @@ public class SystemSchedule {
 			e.printStackTrace();
 		}
 		
-		Logger.logDEBUG("[read file] ========================");
+		logDEBUG("[read file] ========================");
 		
 		return listInputs;
 	}
@@ -167,7 +167,7 @@ public class SystemSchedule {
 	}
 
 	private List<Process> createListPro(List<String> listInput){
-		Logger.logDEBUG("[create list pro] ========================");
+		logDEBUG("[create list pro] ========================");
 		
 		List<Process> list = new ArrayList<Process>();
 		
@@ -183,7 +183,7 @@ public class SystemSchedule {
 				continue;
 			}
 			this.setChangeTime(in);
-			Logger.log("[create list pro] set change time: " + this.getChangeTime());
+			log("[create list pro] set change time: " + this.getChangeTime());
 		}
 		
 		//remove change time from list
@@ -228,7 +228,7 @@ public class SystemSchedule {
 				
 				//create new process
 				list.add(new Process(name, priority, burst, arrival));
-				Logger.logDEBUG("[create list pro] new process " + name + " : " + priority + ", " + burst + ", " + arrival);
+				logDEBUG("[create list pro] new process " + name + " : " + priority + ", " + burst + ", " + arrival);
 				
 				//init
 				name = "";
@@ -240,7 +240,7 @@ public class SystemSchedule {
 			}
 		}
 		
-		Logger.logDEBUG("[create list pro] ========================");
+		logDEBUG("[create list pro] ========================");
 		
 		return list;
 	}
@@ -257,5 +257,25 @@ public class SystemSchedule {
 
 	public Process getpEND() {
 		return pEND;
+	}
+	
+	/*
+	 * Logger redirect
+	 */
+	
+	protected static void log(String msg) {
+		MainCPUScheduling.getInstance().log(msg);
+	}
+	
+	protected static void logDEBUG(String msg) {
+		MainCPUScheduling.getInstance().logDEBUG(msg);
+	}
+	
+	protected static void logAlg(ScheduleList alg, String msg) {
+		MainCPUScheduling.getInstance().logAlg(alg, msg);
+	}
+	
+	protected static void logAlg(ScheduleList alg, int count, String msg) {
+		MainCPUScheduling.getInstance().logAlg(alg, count, msg);
 	}
 }

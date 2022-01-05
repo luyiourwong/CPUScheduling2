@@ -1,11 +1,7 @@
 package com.luyiourwong.se.hw2;
 
-import java.io.File;
-import java.util.List;
-
 import com.luyiourwong.se.hw2.gui.GuiMain;
-import com.luyiourwong.se.hw2.schedules.Process;
-import com.luyiourwong.se.hw2.schedules.Schedule;
+import com.luyiourwong.se.hw2.schedules.ScheduleList;
 import com.luyiourwong.se.hw2.schedules.SystemSchedule;
 
 /**
@@ -27,7 +23,6 @@ public class MainCPUScheduling{
 	public static void main(String[] args) {
 		setInstance(new MainCPUScheduling());
 		getInstance().init();
-		getInstance().showGui();
 	}
 	
 	public MainCPUScheduling() {
@@ -49,7 +44,7 @@ public class MainCPUScheduling{
 	private GuiMain guiMain;
 	private SystemSchedule system;
 	
-	private GuiMain getGuiMain() {
+	public GuiMain getGuiMain() {
 		return guiMain;
 	}
 
@@ -57,7 +52,7 @@ public class MainCPUScheduling{
 		this.guiMain = guiMain;
 	}
 	
-	private SystemSchedule getSystem() {
+	public SystemSchedule getSystem() {
 		return system;
 	}
 
@@ -71,6 +66,7 @@ public class MainCPUScheduling{
 
 	private void init() {
 		setup();
+		getGuiMain().initGui();
 	}
 	
 	private void setup() {
@@ -79,24 +75,22 @@ public class MainCPUScheduling{
 	}
 	
 	/*
-	 * method
+	 * Logger
 	 */
 	
-	private void showGui() {
-		getGuiMain().initGui();
+	public void log(String msg) {
+		System.out.println(msg);
 	}
 	
-	public void scheduling(File file) {
-		getGuiMain().clearGui();
-		List<Schedule> list = getSystem().scheduling(file);
-		getGuiMain().createAlgGuis(list);
+	public void logDEBUG(String msg) {
+		if(DEBUG)System.out.println(msg);
 	}
 	
-	public List<Process> getListPro(){
-		return getSystem().getListPro();
+	public void logAlg(ScheduleList alg, String msg) {
+		System.out.println("[sch " + alg.getNick() + "] " + msg);
 	}
 	
-	public Process getpEND() {
-		return getSystem().getpEND();
+	public void logAlg(ScheduleList alg, int count, String msg) {
+		System.out.println("[sch " + alg.getNick() + "] [" + count + "] " + msg);
 	}
 }

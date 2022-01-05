@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.luyiourwong.se.hw2.Logger;
-
 /**
  * First Come First Served
  *
@@ -18,7 +16,7 @@ public class ScheduleFCFS extends Schedule{
 
 	@Override
 	protected Map<Integer, Process> createScheduling(List<Process> listPro){
-		Logger.logAlg(getAlg(), "========================");
+		SystemSchedule.logAlg(getAlg(), "========================");
 		
 		Map<Integer, Process> mapSch = new TreeMap<Integer, Process>();
 		
@@ -29,18 +27,18 @@ public class ScheduleFCFS extends Schedule{
 			//如果下一個時間比到達時間早, 補idle
 			if(next < p.getArrival()) {
 				mapSch.put(next, SystemSchedule.pIdle);
-				Logger.logAlg(getAlg(), "at " + next + " : " + SystemSchedule.pIdle.getName());
+				SystemSchedule.logAlg(getAlg(), "at " + next + " : " + SystemSchedule.pIdle.getName());
 				next = p.getArrival();
 			}
 			mapSch.put(next, p);
-			Logger.logAlg(getAlg(), "at " + next + " : " + p.getName());
+			SystemSchedule.logAlg(getAlg(), "at " + next + " : " + p.getName());
 			next += p.getBurst();
 		}
 		
 		mapSch.put(next, SystemSchedule.pEND);
-		Logger.logAlg(getAlg(), "at " + next + " END ");
+		SystemSchedule.logAlg(getAlg(), "at " + next + " END ");
 		
-		Logger.logAlg(getAlg(), "========================");
+		SystemSchedule.logAlg(getAlg(), "========================");
 		
 		return mapSch;
 	}

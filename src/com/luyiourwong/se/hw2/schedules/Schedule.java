@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.luyiourwong.se.hw2.Logger;
-
 /**
  * To extends this, replace createScheduling().
  * To new this, just input listPro.
@@ -78,30 +76,30 @@ public class Schedule {
 	}
 	
 	private void printSchedule() {
-		Logger.logAlg(getAlg(), "========================");
+		SystemSchedule.logAlg(getAlg(), "========================");
 		
 		for(Integer i : getMapSch().keySet()) {
 			Process p = getMapSch().get(i);
-			Logger.logAlg(getAlg(), "at " + i + " : " + p.getName());
+			SystemSchedule.logAlg(getAlg(), "at " + i + " : " + p.getName());
 		}
 		
-		Logger.logAlg(getAlg(), "========================");
+		SystemSchedule.logAlg(getAlg(), "========================");
 		
 		for(Process p : getMapTimeRun().keySet()) {
 			Integer i = getMapTimeRun().get(p);
-			Logger.logAlg(getAlg(), "" + p.getName() + " Turnaround Time: " + i);
+			SystemSchedule.logAlg(getAlg(), "" + p.getName() + " Turnaround Time: " + i);
 			p.setValue(Process.TURN, getAlg().getNick(), i);
 		}
 		
-		Logger.logAlg(getAlg(), "========================");
+		SystemSchedule.logAlg(getAlg(), "========================");
 		
 		for(Process p : getMapTimeWait().keySet()) {
 			Integer i = getMapTimeWait().get(p);
-			Logger.logAlg(getAlg(), "" + p.getName() + " Waiting Time: " + i);
+			SystemSchedule.logAlg(getAlg(), "" + p.getName() + " Waiting Time: " + i);
 			p.setValue(Process.WAIT, getAlg().getNick(), i);
 		}
 		
-		Logger.logAlg(getAlg(), "========================");
+		SystemSchedule.logAlg(getAlg(), "========================");
 	}
 
 	/**
