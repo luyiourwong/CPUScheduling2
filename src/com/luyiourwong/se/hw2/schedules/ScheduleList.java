@@ -2,10 +2,10 @@ package com.luyiourwong.se.hw2.schedules;
 
 public enum ScheduleList {
 
-	FCFS("FCFS", "First Come First Served"),   //Done
-	SJF("SJF", "Shortest Job First"),          //Done
-	PF("PF", "Priority First"),                //Done
-	RR("RR", "Round Robin"),                   //Done
+	FCFS("FCFS", "First Come First Served"),
+	SJF("SJF", "Shortest Job First"),
+	PF("PF", "Priority First"),
+	RR("RR", "Round Robin"),
 	;
 	
 	/*

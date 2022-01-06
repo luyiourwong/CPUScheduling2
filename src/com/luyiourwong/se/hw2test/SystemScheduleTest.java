@@ -116,8 +116,8 @@ class SystemScheduleTest {
 		List<Process> listProActual = system.getListPro();
 		
 		/*
-    	 * expected
-    	 */
+		 * expected
+		 */
 		
 		List<Process> listProExpected = new ArrayList<Process>();
 		listProExpected.add(new Process("P1", 40, 20, 0));
@@ -153,8 +153,8 @@ class SystemScheduleTest {
 		List<Process> listProActual = system.getListPro();
 		
 		/*
-    	 * expected
-    	 */
+		 * expected
+		 */
 		
 		List<Process> listProExpected = new ArrayList<Process>();
 		listProExpected.add(new Process("P1", 40, 20, 0));
@@ -190,8 +190,8 @@ class SystemScheduleTest {
 		List<Process> listProActual = system.getListPro();
 		
 		/*
-    	 * expected
-    	 */
+		 * expected
+		 */
 		
 		List<Process> listProExpected = new ArrayList<Process>();
 		listProExpected.add(new Process("P5", 5, 20, 100));
@@ -237,8 +237,8 @@ class SystemScheduleTest {
 		Map<Integer, Process> mapActual = schActual.getMapSch();
 		
 		/*
-    	 * expected
-    	 */
+		 * expected
+		 */
 		
 		Map<Integer, Process> mapExpected = new TreeMap<Integer, Process>();
 		mapExpected.put(0, new Process("P1", 40, 20, 0));
@@ -286,8 +286,8 @@ class SystemScheduleTest {
 		Map<Integer, Process> mapActual = schActual.getMapSch();
 		
 		/*
-    	 * expected
-    	 */
+		 * expected
+		 */
 		
 		Map<Integer, Process> mapExpected = new TreeMap<Integer, Process>();
 		mapExpected.put(0, new Process("P1", 40, 20, 0));
@@ -336,8 +336,8 @@ class SystemScheduleTest {
 		Map<Integer, Process> mapActual = schActual.getMapSch();
 		
 		/*
-    	 * expected
-    	 */
+		 * expected
+		 */
 		
 		Map<Integer, Process> mapExpected = new TreeMap<Integer, Process>();
 		mapExpected.put(0, new Process("P1", 40, 20, 0));
@@ -388,8 +388,8 @@ class SystemScheduleTest {
 		Map<Integer, Process> mapActual = schActual.getMapSch();
 		
 		/*
-    	 * expected
-    	 */
+		 * expected
+		 */
 		
 		Map<Integer, Process> mapExpected = new TreeMap<Integer, Process>();
 		mapExpected.put(0, new Process("P1", 40, 20, 0));

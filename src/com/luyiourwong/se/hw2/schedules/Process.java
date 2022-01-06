@@ -121,6 +121,6 @@ public class Process implements Comparable<Process>{
 		if (this.getArrival() != o.getArrival()) {
 			return false;
 		}
-        return true;
-    }
+		return true;
+	}
 }

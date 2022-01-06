@@ -47,9 +47,8 @@ public class GuiMain extends JFrame{
 		setResizable(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
-		BorderLayout layoutMain = new BorderLayout();
 		containerMain = getContentPane();
-		containerMain.setLayout(layoutMain);
+		containerMain.setLayout(new BorderLayout());
 		
 		/*
 		 * Basic
@@ -100,7 +99,7 @@ public class GuiMain extends JFrame{
 		}
 		
 		JScrollPane sp = new JScrollPane(jp_algs);
-        containerMain.add(sp, BorderLayout.CENTER);
+		containerMain.add(sp, BorderLayout.CENTER);
 	}
 	
 	private int color = 0;
@@ -197,14 +196,6 @@ public class GuiMain extends JFrame{
 		}
 		
 		JTable jt = new JTable(list, columns);
-		
-		/*JScrollPane scrollPane = new JScrollPane(jt);  
-		jt.setFillsViewportHeight(true);
-		
-		int y = ((count) * 17) + 20;
-		scrollPane.setBounds(0, locY, layoutX, y);
-		locY += y;
-		jp.add(scrollPane);*/
 		
 		return jt;
 	}
